@@ -18,7 +18,7 @@ class ExpressFileTransferRequest extends BaseAbstractRequest
     {
         $this->validate('certPath', 'certPassword', 'txnTime', 'fileType', 'settleDate');
 
-        $data = [
+        $data = array(
             'version'    => $this->getVersion(),        //版本号
             'encoding'   => $this->getEncoding(),        //编码方式
             'certId'     => $this->getCertId(),    //证书ID
@@ -31,7 +31,7 @@ class ExpressFileTransferRequest extends BaseAbstractRequest
             'settleDate' => '0119',        //清算日期
             'txnTime'    => $this->getTxnTime(),    //订单发送时间
             'fileType'   => $this->getFileType(),        //文件类型
-        ];
+        );
 
         $data = Helper::filterData($data);
 

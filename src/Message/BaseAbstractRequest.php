@@ -12,12 +12,12 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     protected $productionEndpoint = 'https://gateway.95516.com/gateway/api/';
 
-    protected $methods = [
+    protected $methods = array(
         'front' => 'frontTransReq.do',
         'back'  => 'backTransReq.do',
         'app'   => 'appTransReq.do',
         'query' => 'queryTrans.do',
-    ];
+    );
 
 
     public function getEndpoint($type)
