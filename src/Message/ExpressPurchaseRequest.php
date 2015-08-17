@@ -85,5 +85,4 @@ class ExpressPurchaseRequest extends BaseAbstractRequest
     {
         return $this->response = new ExpressPurchaseResponse($this, $data);
     }
-
 }

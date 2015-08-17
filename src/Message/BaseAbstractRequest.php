@@ -313,15 +313,15 @@ abstract class BaseAbstractRequest extends AbstractRequest
         parse_str($result, $data);
 
         if ( ! is_array($data)) {
-            $data = [ ];
+            $data = [];
         }
 
         return $data;
     }
 
-    protected function getCertId(){
+
+    protected function getCertId()
+    {
         return Helper::getCertId($this->getCertPath(), $this->getCertPassword());
     }
-
 }
-
