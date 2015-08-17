@@ -22,5 +22,4 @@ class ExpressResponse extends AbstractResponse
     {
         return $this->isSuccessful() && $this->data['respCode'] == '00';
     }
-
 }

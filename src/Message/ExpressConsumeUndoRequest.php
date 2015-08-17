@@ -71,5 +71,4 @@ class ExpressConsumeUndoRequest extends BaseAbstractRequest
 
         return $this->response = new ExpressResponse($this, $data);
     }
-
 }

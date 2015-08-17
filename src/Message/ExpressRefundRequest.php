@@ -71,5 +71,4 @@ class ExpressRefundUndoRequest extends BaseAbstractRequest
 
         return $this->response = new ExpressResponse($this, $data);
     }
-
 }

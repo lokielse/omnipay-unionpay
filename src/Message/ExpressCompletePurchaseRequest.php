@@ -59,5 +59,4 @@ class ExpressCompletePurchaseRequest extends AbstractRequest
 
         return $this->response = new ExpressCompletePurchaseResponse($this, $data);
     }
-
 }
