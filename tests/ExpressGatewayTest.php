@@ -33,12 +33,12 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testPurchase()
     {
-        $order = [
+        $order = array (
             'orderId' => date('YmdHis'), //Your order ID
             'txnTime' => date('YmdHis'), //Should be format 'YmdHis'
             'title'   => 'My order title', //Order Title
             'txnAmt'  => '100', //Order Total Fee
-        ];
+        );
 
         /**
          * @var PurchaseResponse $response
@@ -52,12 +52,12 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testCompletePurchase()
     {
-        $options = [
-            'request_params' => [
+        $options = array (
+            'request_params' => array (
                 'certId'    => '3474813271258769001041842579301293446',
                 'signature' => 'xxxxxxx'
-            ],
-        ];
+            ),
+        );
 
         /**
          * @var PurchaseResponse $response
@@ -69,12 +69,12 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testQuery()
     {
-        $options = [
+        $options = array (
             'certId'  => '3474813271258769001041842579301293446',
             'orderId' => 'xxxxxxx',
             'txnTime' => date('YmdHis'),
             'txnAmt'  => '100',
-        ];
+        );
 
         /**
          * @var PurchaseResponse $response
@@ -86,13 +86,13 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testConsumeUndo()
     {
-        $options = [
+        $options = array (
             'certId'  => '3474813271258769001041842579301293446',
             'orderId' => 'xxxxxxx',
             'txnAmt'  => '100',
             'queryId' => 'XXXXX',
             'txnTime' => date('YmdHis'),
-        ];
+        );
 
         /**
          * @var PurchaseResponse $response
@@ -104,13 +104,13 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testRefund()
     {
-        $options = [
+        $options = array (
             'certId'  => '3474813271258769001041842579301293446',
             'orderId' => '222222',
             'queryId' => '333333',
             'txnTime' => date('YmdHis'),
             'txnAmt'  => '100',
-        ];
+        );
 
         /**
          * @var PurchaseResponse $response
@@ -122,12 +122,12 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testFileTransfer()
     {
-        $options = [
+        $options = array (
             'certId'     => '3474813271258769001041842579301293446',
             'txnTime'    => date('YmdHis'),
             'fileType'   => '00',
             'settleDate' => '0815',
-        ];
+        );
 
         /**
          * @var PurchaseResponse $response

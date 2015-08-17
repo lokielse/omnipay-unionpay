@@ -313,7 +313,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
         parse_str($result, $data);
 
         if (! is_array($data)) {
-            $data = [];
+            $data = array();
         }
 
         return $data;
