@@ -18,7 +18,7 @@ class ExpressRefundRequest extends BaseAbstractRequest
     {
         $this->validate('certPath', 'certPassword', 'orderId', 'txnTime', 'txnAmt', 'queryId');
 
-        $data = [
+        $data = array(
             'version'     => $this->getVersion(),     //版本号
             'encoding'    => $this->getEncoding(),        //编码方式
             'certId'      => $this->getCertId(),    //证书ID
@@ -37,7 +37,7 @@ class ExpressRefundRequest extends BaseAbstractRequest
             'backUrl'     => $this->getNotifyUrl(),       //后台通知地址
             'reqReserved' => $this->getReqReserved(),
             //请求方保留域，透传字段，查询、通知、对账文件中均会原样出现
-        ];
+        );
 
         $data = Helper::filterData($data);
 
