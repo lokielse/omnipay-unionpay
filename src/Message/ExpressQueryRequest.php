@@ -18,7 +18,7 @@ class ExpressQueryRequest extends BaseAbstractRequest
     {
         $this->validate('certPath', 'certPassword', 'orderId', 'txnTime', 'txnAmt');
 
-        $data = [
+        $data = array(
             'version'     => $this->getVersion(),
             'encoding'    => $this->getEncoding(),
             'certId'      => $this->getCertId(),
@@ -31,7 +31,7 @@ class ExpressQueryRequest extends BaseAbstractRequest
             'orderId'     => $this->getOrderId(),
             'merId'       => $this->getMerId(),
             'txnTime'     => $this->getTxnTime(),
-        ];
+        );
 
         $data = Helper::filterData($data);
 

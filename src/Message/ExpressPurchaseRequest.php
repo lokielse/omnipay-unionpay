@@ -18,7 +18,7 @@ class ExpressPurchaseRequest extends BaseAbstractRequest
     {
         $this->validateData();
 
-        $data = [
+        $data = array(
             //版本号
             'version'        => $this->getVersion(),
             //编码方式
@@ -57,7 +57,7 @@ class ExpressPurchaseRequest extends BaseAbstractRequest
             'orderDesc'      => $this->getOrderDesc(),
             //请求方保留域，透传字段，查询、通知、对账文件中均会原样出现
             'reqReserved'    => $this->getReqReserved(),
-        ];
+        );
 
         $data = Helper::filterData($data);
 
