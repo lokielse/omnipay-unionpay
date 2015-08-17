@@ -131,7 +131,7 @@ repository.
 ## Related
 
 [Laravel-Omnipay](https://github.com/ignited/laravel-omnipay)
-[Omnipay-UnionPay](https://github.com/lokielse/omnipay-unionpay)
+[Omnipay-Alipay](https://github.com/lokielse/omnipay-alipay)
 
 ## Support
 
