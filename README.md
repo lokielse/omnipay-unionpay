@@ -43,7 +43,7 @@ The following gateways are provided by this package:
 
 Sandbox Param can be fount at: [UnionPay Developer Center](https://open.unionpay.com/ajweb/account/testPara)
 
-# Consume
+### Consume
 
 ```php
 $gateway    = Omnipay::create('UnionPay_Express');
@@ -67,7 +67,7 @@ $response->getTradeNo(); //For APP
 
 ```
 
-# Return/Notify
+### Return/Notify
 ```php
 $gateway    = Omnipay::create('UnionPay_Express');
 $gateway->setMerId($config['merId']);
@@ -80,7 +80,7 @@ if ($response->isSuccessful()) {
 }
 ```
 
-# Query Order Status
+### Query Order Status
 ```php
 $response = $gateway->Omnipay::queryStatus([
     'orderId' => '20150815121214', //Your site trade no, not union tn.
@@ -92,7 +92,7 @@ var_dump($response->isOK());
 var_dump($response->getData());
 ```
 
-# Consume Undo
+### Consume Undo
 ```php
 $response = $gateway->consumeUndo([
     'orderId' => '20150815121214', //Your site trade no, not union tn.
@@ -105,7 +105,7 @@ var_dump($response->isOK());
 var_dump($response->getData());
 ```
 
-# Refund
+### Refund
 ```php
 $response = $gateway->refund([
     'orderId' => '20150815121214', //Your site trade no, not union tn.
@@ -117,7 +117,7 @@ var_dump($response->isOK());
 var_dump($response->getData());
 ```
 
-# File Transfer
+### File Transfer
 ```php
 $response = $gateway->fileTransfer([
     'txnTime'   => '20150815121214', //Order trade time
