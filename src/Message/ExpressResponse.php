@@ -7,6 +7,12 @@ use Omnipay\Common\Message\AbstractResponse;
 class ExpressResponse extends AbstractResponse
 {
 
+    public function isOK()
+    {
+        return $this->isSuccessful() && $this->data['respCode'] == '00';
+    }
+
+
     /**
      * Is the response successful?
      *
@@ -14,12 +20,6 @@ class ExpressResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return isset( $this->data['respCode'] );
-    }
-
-
-    public function isOK()
-    {
-        return $this->isSuccessful() && $this->data['respCode'] == '00';
+        return isset($this->data['respCode']);
     }
 }

@@ -5,7 +5,7 @@ namespace Omnipay\UnionPay\Message;
 use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\UnionPay\Helper;
 
-class ExpressFileTransferUndoRequest extends BaseAbstractRequest
+class ExpressFileTransferRequest extends BaseAbstractRequest
 {
 
     /**
@@ -41,6 +41,12 @@ class ExpressFileTransferUndoRequest extends BaseAbstractRequest
     }
 
 
+    public function getFileType()
+    {
+        return $this->getParameter('fileType');
+    }
+
+
     public function setQueryId($value)
     {
         $this->setParameter('queryId', $value);
@@ -68,12 +74,6 @@ class ExpressFileTransferUndoRequest extends BaseAbstractRequest
     public function setFileType($value)
     {
         $this->setParameter('fileType', $value);
-    }
-
-
-    public function getFileType()
-    {
-        return $this->getParameter('fileType');
     }
 
 

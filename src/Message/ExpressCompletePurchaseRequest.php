@@ -2,11 +2,10 @@
 
 namespace Omnipay\UnionPay\Message;
 
-use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\UnionPay\Helper;
 
-class ExpressCompletePurchaseRequest extends AbstractRequest
+class ExpressCompletePurchaseRequest extends BaseAbstractRequest
 {
 
     /**
