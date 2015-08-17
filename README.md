@@ -130,8 +130,8 @@ repository.
 
 ## Related
 
-[Laravel-Omnipay](https://github.com/ignited/laravel-omnipay)
-[Omnipay-Alipay](https://github.com/lokielse/omnipay-alipay)
+- [Laravel-Omnipay](https://github.com/ignited/laravel-omnipay)
+- [Omnipay-Alipay](https://github.com/lokielse/omnipay-alipay)
 
 ## Support
 
