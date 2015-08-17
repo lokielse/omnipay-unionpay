@@ -80,7 +80,7 @@ if ($response->isSuccessful()) {
 $response = $gateway->Omnipay::queryStatus([
     'orderId' => '20150815121214', //Your site trade no, not union tn.
     'txnTime' => '20150815121214', //Order trade time
-    'txnAmt'     => '200', //Order total fee
+    'txnAmt'  => '200', //Order total fee
 ])->send();
 
 var_dump($response->isOK());
@@ -115,7 +115,7 @@ var_dump($response->getData());
 ### File Transfer
 ```php
 $response = $gateway->fileTransfer([
-    'txnTime'   => '20150815121214', //Order trade time
+    'txnTime'    => '20150815121214', //Order trade time
     'settleDate' => '0119', //Settle Date
     'fileType'   => '00', //File Type
 ])->send();
