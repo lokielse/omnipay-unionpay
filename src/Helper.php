@@ -16,16 +16,6 @@ class Helper
     }
 
 
-    protected static function getCertIdByCerPath($certPath)
-    {
-        $x509data = file_get_contents($certPath);
-        openssl_x509_read($x509data);
-        $certData = openssl_x509_parse($x509data);
-
-        return $certData ['serialNumber'];
-    }
-
-
     public static function getParamsSignature($params, $certPath, $password)
     {
         ksort($params);
@@ -53,7 +43,7 @@ class Helper
     {
         $publicKey        = self::getPublicKeyByCertId($params['certId'], $certDir);
         $requestSignature = $params ['signature'];
-        unset ( $params ['signature'] );
+        unset($params['signature']);
 
         ksort($params);
         $query = http_build_query($params);
@@ -82,13 +72,11 @@ class Helper
                     }
                 }
             }
-            throw new \Exception('Can not find certId in certDir %s', $certDir);
+            throw new \Exception(sprintf('Can not find certId in certDir %s', $certDir));
         } else {
             throw new \Exception('certDir is not exists');
         }
-        closedir($handle);
 
-        return null;
     }
 
 
@@ -104,6 +92,16 @@ class Helper
     }
 
 
+    protected static function getCertIdByCerPath($certPath)
+    {
+        $x509data = file_get_contents($certPath);
+        openssl_x509_read($x509data);
+        $certData = openssl_x509_parse($x509data);
+
+        return $certData ['serialNumber'];
+    }
+
+
     public static function sendHttpRequest($url, $params)
     {
         $ch = curl_init();
@@ -113,7 +111,7 @@ class Helper
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSLVERSION, 3);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-type:application/x-www-form-urlencoded;charset=UTF-8' ]);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type:application/x-www-form-urlencoded;charset=UTF-8']);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
@@ -125,9 +123,12 @@ class Helper
 
     public static function filterData($data)
     {
-        $data = array_filter($data, function ($v) {
-            return $v !== '';
-        });
+        $data = array_filter(
+            $data,
+            function ($v) {
+                return $v !== '';
+            }
+        );
 
         return $data;
     }

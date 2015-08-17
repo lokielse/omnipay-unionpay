@@ -49,10 +49,10 @@ $gateway->setReturnUrl($config['returnUrl']);
 $gateway->setNotifyUrl($config['notifyUrl']);
 
 $order = [
-    'orderId' => date('YmdHis'), //Your order ID
-    'txnTime' => date('YmdHis'), //Should be format 'YmdHis'
-    'title'   => 'My order title', //Order Title
-    'txnAmt'  => '100', //Order Total Fee
+    'orderId'   => date('YmdHis'), //Your order ID
+    'txnTime'   => date('YmdHis'), //Should be format 'YmdHis'
+    'orderDesc' => 'My order title', //Order Title
+    'txnAmt'    => '100', //Order Total Fee
 ];
 
 $response = $gateway->purchase($order)->send();

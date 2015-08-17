@@ -30,30 +30,36 @@ class ExpressConsumeUndoRequest extends BaseAbstractRequest
             'channelType' => $this->getChannelType(),        //渠道类型
             'orderId'     => $this->getOrderId(),    //商户订单号，重新产生，不同于原消费
             'merId'       => $this->getMerId(),            //商户代码，请改成自己的测试商户号
-            'origQryId'   => $this->getQueryId(),    //原消费的queryId，可以从查询接口或者通知接口中获取
+            'origQryId'   => $this->getQueryId(),
+            //原消费的queryId，可以从查询接口或者通知接口中获取
             'txnTime'     => $this->getTxnTime(),    //订单发送时间，重新产生，不同于原消费
-            'txnAmt'      => $this->getTxnAmt(),              //交易金额，消费撤销时需和原消费一致
-            'backUrl'     => $this->getNotifyUrl(),       //后台通知地址
-            'reqReserved' => $this->getReqReserved(), //请求方保留域，透传字段，查询、通知、对账文件中均会原样出现
+            'txnAmt'      => $this->getTxnAmt(),    //交易金额，消费撤销时需和原消费一致
+            'backUrl'     => $this->getNotifyUrl(),  //后台通知地址
+            'reqReserved' => $this->getReqReserved(),
+            //请求方保留域，透传字段，查询、通知、对账文件中均会原样出现
         ];
 
         $data = Helper::filterData($data);
 
-        $data['signature'] = Helper::getParamsSignature($data, $this->getCertPath(), $this->getCertPassword());
+        $data['signature'] = Helper::getParamsSignature(
+            $data,
+            $this->getCertPath(),
+            $this->getCertPassword()
+        );
 
         return $data;
-    }
-
-
-    public function setQueryId($value)
-    {
-        $this->setParameter('queryId', $value);
     }
 
 
     public function getQueryId()
     {
         $this->getParameter('queryId');
+    }
+
+
+    public function setQueryId($value)
+    {
+        $this->setParameter('queryId', $value);
     }
 
 

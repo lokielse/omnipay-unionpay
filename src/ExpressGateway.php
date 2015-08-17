@@ -36,7 +36,7 @@ class ExpressGateway extends AbstractGateway
             'accessType'     => '0',
             'currencyCode'   => '156',
             'orderDesc'      => 'an order',
-            'extra'          => '',
+            'reqReserved'    => '',
             'defaultPayType' => '0001',
             'environment'    => 'sandbox',
         ];
@@ -45,7 +45,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setVersion($value)
     {
-        $this->setParameter('version', $value);
+        return $this->setParameter('version', $value);
     }
 
 
@@ -57,7 +57,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setEncoding($value)
     {
-        $this->setParameter('encoding', $value);
+        return $this->setParameter('encoding', $value);
     }
 
 
@@ -69,7 +69,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setTxnType($value)
     {
-        $this->setParameter('txnType', $value);
+        return $this->setParameter('txnType', $value);
     }
 
 
@@ -81,7 +81,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setTxnSubType($value)
     {
-        $this->setParameter('txnSubType', $value);
+        return $this->setParameter('txnSubType', $value);
     }
 
 
@@ -93,7 +93,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setBizType($value)
     {
-        $this->setParameter('bizType', $value);
+        return $this->setParameter('bizType', $value);
     }
 
 
@@ -105,7 +105,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setReturnUrl($value)
     {
-        $this->setParameter('returnUrl', $value);
+        return $this->setParameter('returnUrl', $value);
     }
 
 
@@ -117,7 +117,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setNotifyUrl($value)
     {
-        $this->setParameter('notifyUrl', $value);
+        return $this->setParameter('notifyUrl', $value);
     }
 
 
@@ -129,7 +129,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setSignMethod($value)
     {
-        $this->setParameter('signMethod', $value);
+        return $this->setParameter('signMethod', $value);
     }
 
 
@@ -141,7 +141,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setChannelType($value)
     {
-        $this->setParameter('channelType', $value);
+        return $this->setParameter('channelType', $value);
     }
 
 
@@ -153,7 +153,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setAccessType($value)
     {
-        $this->setParameter('accessType', $value);
+        return $this->setParameter('accessType', $value);
     }
 
 
@@ -165,7 +165,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setMerId($value)
     {
-        $this->setParameter('merId', $value);
+        return $this->setParameter('merId', $value);
     }
 
 
@@ -177,7 +177,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setCurrencyCode($value)
     {
-        $this->setParameter('currencyCode', $value);
+        return $this->setParameter('currencyCode', $value);
     }
 
 
@@ -189,7 +189,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setEnvironment($value)
     {
-        $this->setParameter('environment', $value);
+        return $this->setParameter('environment', $value);
     }
 
 
@@ -201,7 +201,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setCertDir($value)
     {
-        $this->setParameter('certDir', $value);
+        return $this->setParameter('certDir', $value);
     }
 
 
@@ -213,7 +213,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setCertPath($value)
     {
-        $this->setParameter('certPath', $value);
+        return $this->setParameter('certPath', $value);
     }
 
 
@@ -225,7 +225,7 @@ class ExpressGateway extends AbstractGateway
 
     public function setCertPassword($value)
     {
-        $this->setParameter('certPassword', $value);
+        return $this->setParameter('certPassword', $value);
     }
 
 
@@ -235,37 +235,73 @@ class ExpressGateway extends AbstractGateway
     }
 
 
-    public function purchase(array $parameters = [ ])
+    public function setOrderDesc($value)
+    {
+        return $this->setParameter('orderDesc', $value);
+    }
+
+
+    public function getOrderDesc()
+    {
+        return $this->getParameter('orderDesc');
+    }
+
+
+    public function setReqReserved($value)
+    {
+        return $this->setParameter('reqReserved', $value);
+    }
+
+
+    public function getReqReserved()
+    {
+        return $this->getParameter('reqReserved');
+    }
+
+
+    public function setDefaultPayType($value)
+    {
+        return $this->setParameter('defaultPayType', $value);
+    }
+
+
+    public function getDefaultPayType()
+    {
+        return $this->getParameter('defaultPayType');
+    }
+
+
+    public function purchase(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressPurchaseRequest', $parameters);
     }
 
 
-    public function completePurchase(array $parameters = [ ])
+    public function completePurchase(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressCompletePurchaseRequest', $parameters);
     }
 
 
-    public function query(array $parameters = [ ])
+    public function query(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressQueryStatusPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressQueryRequest', $parameters);
     }
 
 
-    public function consumeUndo(array $parameters = [ ])
+    public function consumeUndo(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressConsumeUndoRequest', $parameters);
     }
 
 
-    public function refund(array $parameters = [ ])
+    public function refund(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressRefundRequest', $parameters);
     }
 
 
-    public function fileTransfer(array $parameters = [ ])
+    public function fileTransfer(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressFileTransferRequest', $parameters);
     }

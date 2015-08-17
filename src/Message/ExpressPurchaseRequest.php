@@ -8,13 +8,6 @@ use Omnipay\UnionPay\Helper;
 class ExpressPurchaseRequest extends BaseAbstractRequest
 {
 
-    private function validateData()
-    {
-        $this->validate('certPath', 'certPassword', 'returnUrl', 'notifyUrl', 'merId', 'orderId', 'txnTime', 'title',
-            'txnAmt');
-    }
-
-
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
@@ -61,7 +54,7 @@ class ExpressPurchaseRequest extends BaseAbstractRequest
             //默认支付方式
             'defaultPayType' => $this->getDefaultPayType(),
             //订单描述，网关支付和wap支付暂时不起作用
-            'orderDesc'      => $this->getTitle(),
+            'orderDesc'      => $this->getOrderDesc(),
             //请求方保留域，透传字段，查询、通知、对账文件中均会原样出现
             'reqReserved'    => $this->getReqReserved(),
         ];
@@ -71,6 +64,22 @@ class ExpressPurchaseRequest extends BaseAbstractRequest
         $data['signature'] = Helper::getParamsSignature($data, $this->getCertPath(), $this->getCertPassword());
 
         return $data;
+    }
+
+
+    private function validateData()
+    {
+        $this->validate(
+            'certPath',
+            'certPassword',
+            'returnUrl',
+            'notifyUrl',
+            'merId',
+            'orderId',
+            'txnTime',
+            'orderDesc',
+            'txnAmt'
+        );
     }
 
 

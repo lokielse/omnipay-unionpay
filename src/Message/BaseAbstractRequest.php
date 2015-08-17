@@ -38,7 +38,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setVersion($value)
     {
-        $this->setParameter('version', $value);
+        return $this->setParameter('version', $value);
     }
 
 
@@ -50,7 +50,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setEncoding($value)
     {
-        $this->setParameter('encoding', $value);
+        return $this->setParameter('encoding', $value);
     }
 
 
@@ -62,7 +62,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setTxnType($value)
     {
-        $this->setParameter('txnType', $value);
+        return $this->setParameter('txnType', $value);
     }
 
 
@@ -80,13 +80,13 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setTxnSubType($value)
     {
-        $this->setParameter('txnSubType', $value);
+        return $this->setParameter('txnSubType', $value);
     }
 
 
     public function setBizType($value)
     {
-        $this->setParameter('bizType', $value);
+        return $this->setParameter('bizType', $value);
     }
 
 
@@ -98,7 +98,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setReturnUrl($value)
     {
-        $this->setParameter('returnUrl', $value);
+        return $this->setParameter('returnUrl', $value);
     }
 
 
@@ -110,7 +110,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setNotifyUrl($value)
     {
-        $this->setParameter('notifyUrl', $value);
+        return $this->setParameter('notifyUrl', $value);
     }
 
 
@@ -122,7 +122,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setSignMethod($value)
     {
-        $this->setParameter('signMethod', $value);
+        return $this->setParameter('signMethod', $value);
     }
 
 
@@ -134,7 +134,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setChannelType($value)
     {
-        $this->setParameter('channelType', $value);
+        return $this->setParameter('channelType', $value);
     }
 
 
@@ -146,7 +146,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setAccessType($value)
     {
-        $this->setParameter('accessType', $value);
+        return $this->setParameter('accessType', $value);
     }
 
 
@@ -158,7 +158,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setMerId($value)
     {
-        $this->setParameter('merId', $value);
+        return $this->setParameter('merId', $value);
     }
 
 
@@ -170,7 +170,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setCurrencyCode($value)
     {
-        $this->setParameter('currencyCode', $value);
+        return $this->setParameter('currencyCode', $value);
     }
 
 
@@ -182,13 +182,13 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setEnvironment($value)
     {
-        $this->setParameter('environment', $value);
+        return $this->setParameter('environment', $value);
     }
 
 
     public function setCertPath($value)
     {
-        $this->setParameter('certPath', $value);
+        return $this->setParameter('certPath', $value);
     }
 
 
@@ -200,7 +200,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setCertPassword($value)
     {
-        $this->setParameter('certPassword', $value);
+        return $this->setParameter('certPassword', $value);
     }
 
 
@@ -210,21 +210,21 @@ abstract class BaseAbstractRequest extends AbstractRequest
     }
 
 
-    public function setTitle($value)
+    public function setOrderDesc($value)
     {
-        $this->setParameter('title', $value);
+        return $this->setParameter('orderDesc', $value);
     }
 
 
-    public function getTitle()
+    public function getOrderDesc()
     {
-        return $this->getParameter('title');
+        return $this->getParameter('orderDesc');
     }
 
 
     public function setReqReserved($value)
     {
-        $this->setParameter('reqReserved', $value);
+        return $this->setParameter('reqReserved', $value);
     }
 
 
@@ -236,7 +236,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setOrderId($value)
     {
-        $this->setParameter('orderId', $value);
+        return $this->setParameter('orderId', $value);
     }
 
 
@@ -248,7 +248,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setTxnTime($value)
     {
-        $this->setParameter('txnTime', $value);
+        return $this->setParameter('txnTime', $value);
     }
 
 
@@ -260,7 +260,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setTxnAmt($value)
     {
-        $this->setParameter('txnAmt', $value);
+        return $this->setParameter('txnAmt', $value);
     }
 
 
@@ -272,7 +272,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setRequestType($value)
     {
-        $this->setParameter('requestType', $value);
+        return $this->setParameter('requestType', $value);
     }
 
 
@@ -284,7 +284,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setDefaultPayType($value)
     {
-        $this->setParameter('defaultPayType', $value);
+        return $this->setParameter('defaultPayType', $value);
     }
 
 
@@ -296,7 +296,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     public function setCertDir($value)
     {
-        $this->setParameter('certDir', $value);
+        return $this->setParameter('certDir', $value);
     }
 
 
@@ -312,7 +312,7 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
         parse_str($result, $data);
 
-        if ( ! is_array($data)) {
+        if (! is_array($data)) {
             $data = [];
         }
 

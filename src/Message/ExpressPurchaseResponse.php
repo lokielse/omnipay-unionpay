@@ -83,7 +83,7 @@ eot;
 
         parse_str($result, $data);
 
-        if (is_array($data) && isset( $data['tn'] )) {
+        if (is_array($data) && isset($data['tn'])) {
             return $data['tn'];
         } else {
             return null;
