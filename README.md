@@ -32,7 +32,7 @@ And run composer to update your dependencies:
 The following gateways are provided by this package:
 
 
-* Union_Express (Union Express Checkout) 银联全产品网关（PC，APP，WAP支付）
+* UnionPay_Express (Union Express Checkout) 银联全产品网关（PC，APP，WAP支付）
 
 ## Usage
 
