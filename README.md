@@ -128,6 +128,11 @@ var_dump($response->getData());
 For general usage instructions, please see the main [Omnipay](https://github.com/omnipay/omnipay)
 repository.
 
+## Related
+
+[Laravel-Omnipay](https://github.com/ignited/laravel-omnipay)
+[Omnipay-UnionPay](https://github.com/lokielse/omnipay-unionpay)
+
 ## Support
 
 If you are having general issues with Omnipay, we suggest posting on
