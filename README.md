@@ -9,11 +9,6 @@
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements UnionPay support for Omnipay.
 
-
-## Example Code
-[omnipay-unionpay-example](https://github.com/lokielse/omnipay-unionpay-example)
-
-
 ## Installation
 
 Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it
