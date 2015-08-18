@@ -85,7 +85,7 @@ class LegacyMobilePurchaseRequest extends AbstractLegacyMobileRequest
         parse_str($result, $data);
 
         if (! is_array($data)) {
-            $data = [];
+            $data = array();
         }
 
         return $this->response = new LegacyMobilePurchaseResponse($this, $data);
