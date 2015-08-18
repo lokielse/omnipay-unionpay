@@ -24,7 +24,7 @@ class ExpressGateway extends AbstractGateway
 
     public function getDefaultParameters()
     {
-        return [
+        return array (
             'version'        => '5.0.0',
             'encoding'       => 'utf-8',
             'txnType'        => '01',
@@ -38,7 +38,7 @@ class ExpressGateway extends AbstractGateway
             'reqReserved'    => '',
             'defaultPayType' => '0001',
             'environment'    => 'sandbox',
-        ];
+        );
     }
 
 
@@ -270,37 +270,37 @@ class ExpressGateway extends AbstractGateway
     }
 
 
-    public function purchase(array $parameters = [ ])
+    public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressPurchaseRequest', $parameters);
     }
 
 
-    public function completePurchase(array $parameters = [ ])
+    public function completePurchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressCompletePurchaseRequest', $parameters);
     }
 
 
-    public function query(array $parameters = [ ])
+    public function query(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressQueryRequest', $parameters);
     }
 
 
-    public function consumeUndo(array $parameters = [ ])
+    public function consumeUndo(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressConsumeUndoRequest', $parameters);
     }
 
 
-    public function refund(array $parameters = [ ])
+    public function refund(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressRefundRequest', $parameters);
     }
 
 
-    public function fileTransfer(array $parameters = [ ])
+    public function fileTransfer(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressFileTransferRequest', $parameters);
     }
