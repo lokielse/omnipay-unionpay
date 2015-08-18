@@ -44,7 +44,7 @@ class ExpressGatewayTest extends GatewayTestCase
          * @var PurchaseResponse $response
          */
         $response = $this->gateway->purchase($order)->send();
-        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
         $this->assertNotEmpty($response->getRedirectHtml());
     }
@@ -80,7 +80,7 @@ class ExpressGatewayTest extends GatewayTestCase
          * @var PurchaseResponse $response
          */
         $response = $this->gateway->query($options)->send();
-        $this->assertFalse($response->isOK());
+        $this->assertFalse($response->isSuccessful());
     }
 
 
@@ -98,7 +98,7 @@ class ExpressGatewayTest extends GatewayTestCase
          * @var PurchaseResponse $response
          */
         $response = $this->gateway->consumeUndo($options)->send();
-        $this->assertFalse($response->isOK());
+        $this->assertFalse($response->isSuccessful());
     }
 
 
@@ -116,7 +116,7 @@ class ExpressGatewayTest extends GatewayTestCase
          * @var PurchaseResponse $response
          */
         $response = $this->gateway->refund($options)->send();
-        $this->assertFalse($response->isOK());
+        $this->assertFalse($response->isSuccessful());
     }
 
 
@@ -133,6 +133,6 @@ class ExpressGatewayTest extends GatewayTestCase
          * @var PurchaseResponse $response
          */
         $response = $this->gateway->fileTransfer($options)->send();
-        $this->assertFalse($response->isOK());
+        $this->assertFalse($response->isSuccessful());
     }
 }

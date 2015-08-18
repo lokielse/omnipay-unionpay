@@ -5,7 +5,11 @@ namespace Omnipay\UnionPay\Message;
 use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\UnionPay\Helper;
 
-class ExpressFileTransferRequest extends BaseAbstractRequest
+/**
+ * Class ExpressFileTransferRequest
+ * @package Omnipay\UnionPay\Message
+ */
+class ExpressFileTransferRequest extends AbstractExpressRequest
 {
 
     /**
@@ -18,7 +22,7 @@ class ExpressFileTransferRequest extends BaseAbstractRequest
     {
         $this->validate('certPath', 'certPassword', 'txnTime', 'fileType', 'settleDate');
 
-        $data = array(
+        $data = array (
             'version'    => $this->getVersion(),        //版本号
             'encoding'   => $this->getEncoding(),        //编码方式
             'certId'     => $this->getCertId(),    //证书ID
@@ -35,7 +39,7 @@ class ExpressFileTransferRequest extends BaseAbstractRequest
 
         $data = Helper::filterData($data);
 
-        $data['signature'] = Helper::getParamsSignature($data, $this->getCertPath(), $this->getCertPassword());
+        $data['signature'] = Helper::getParamsSignatureWithRSA($data, $this->getCertPath(), $this->getCertPassword());
 
         return $data;
     }

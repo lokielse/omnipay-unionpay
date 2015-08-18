@@ -7,10 +7,10 @@ use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\UnionPay\Helper;
 
 /**
- * Class ExpressPurchaseResponse
+ * Class LegacyQuickPayPurchaseResponse
  * @package Omnipay\UnionPay\Message
  */
-class ExpressPurchaseResponse extends AbstractResponse implements RedirectResponseInterface
+class LegacyQuickPayPurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
 
     public function isSuccessful()
@@ -55,7 +55,7 @@ class ExpressPurchaseResponse extends AbstractResponse implements RedirectRespon
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>跳转中...</title>
 </head>
-<body  onload="javascript:document.pay_form.submit();">
+<body onload="javascript:document.pay_form.submit();">
     <form id="pay_form" name="pay_form" action="{$action}" method="{$method}">
         {$fields}
     </form>
@@ -75,21 +75,5 @@ eot;
         }
 
         return $html;
-    }
-
-
-    public function getTradeNo()
-    {
-        $endpoint = $this->getRequest()->getEndpoint('app');
-
-        $result = Helper::sendHttpRequest($endpoint, $this->data);
-
-        parse_str($result, $data);
-
-        if (is_array($data) && isset($data['tn'])) {
-            return $data['tn'];
-        } else {
-            return null;
-        }
     }
 }

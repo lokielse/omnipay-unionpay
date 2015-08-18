@@ -32,7 +32,9 @@ And run composer to update your dependencies:
 The following gateways are provided by this package:
 
 
-* UnionPay_Express (Union Express Checkout) 银联全产品网关（PC，APP，WAP支付）
+* Union_Express (Union Express Checkout) 银联全产品网关（PC，APP，WAP支付）
+* Union_LegacyMobile (Union Legacy Mobile Checkout) 银联老网关（APP）
+* Union_LegacyQuickPay (Union Legacy QuickPay Checkout) 银联老网关（PC）
 
 ## Usage
 
@@ -68,7 +70,7 @@ $gateway    = Omnipay::create('UnionPay_Express');
 $gateway->setMerId($config['merId']);
 $gateway->setCertDir($config['certDir']); //The directory contain *.cer files
 $response = $gateway->completePurchase($order)->send();
-if ($response->isSuccessful()) {
+if ($response->isPaid()) {
     //pay success
 }else{
     //pay fail
@@ -83,7 +85,7 @@ $response = $gateway->Omnipay::queryStatus([
     'txnAmt'  => '200', //Order total fee
 ])->send();
 
-var_dump($response->isOK());
+var_dump($response->isSuccessful());
 var_dump($response->getData());
 ```
 
@@ -96,7 +98,7 @@ $response = $gateway->consumeUndo([
     'queryId' => 'xxxxxxxxx', //Order total fee
 ])->send();
 
-var_dump($response->isOK());
+var_dump($response->isSuccessful());
 var_dump($response->getData());
 ```
 
@@ -108,7 +110,7 @@ $response = $gateway->refund([
     'txnAmt'  => '200', //Order total fee
 ])->send();
 
-var_dump($response->isOK());
+var_dump($response->isSuccessful());
 var_dump($response->getData());
 ```
 
@@ -120,7 +122,7 @@ $response = $gateway->fileTransfer([
     'fileType'   => '00', //File Type
 ])->send();
 
-var_dump($response->isOK());
+var_dump($response->isSuccessful());
 var_dump($response->getData());
 ```
 

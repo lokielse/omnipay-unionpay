@@ -1,6 +1,10 @@
 <?php
 namespace Omnipay\UnionPay;
 
+/**
+ * Class Helper
+ * @package Omnipay\UnionPay
+ */
 class Helper
 {
 
@@ -16,17 +20,25 @@ class Helper
     }
 
 
-    public static function getParamsSignature($params, $certPath, $password)
+    public static function getParamsSignatureWithRSA($params, $certPath, $password)
     {
-        ksort($params);
-        $query = http_build_query($params);
-        $query = urldecode($query);
+        $query = self::getStringToSign($params);
 
         $params_sha1x16 = sha1($query, false);
         $privateKey     = self::getPrivateKey($certPath, $password);
         openssl_sign($params_sha1x16, $signature, $privateKey, OPENSSL_ALGO_SHA1);
 
         return base64_encode($signature);
+    }
+
+
+    public static function getParamsSignatureWithMD5($params, $secret)
+    {
+        $query = self::getStringToSign($params);
+
+        $signature = md5($query . '&' . md5($secret));
+
+        return $signature;
     }
 
 
@@ -53,7 +65,7 @@ class Helper
         $paramsSha1x16 = sha1($query, false);
         $isSuccess     = openssl_verify($paramsSha1x16, $signature, $publicKey, OPENSSL_ALGO_SHA1);
 
-        return $isSuccess;
+        return (bool)$isSuccess;
     }
 
 
@@ -110,8 +122,8 @@ class Helper
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSLVERSION, 3);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type:application/x-www-form-urlencoded;charset=UTF-8'));
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array ('Content-type:application/x-www-form-urlencoded;charset=UTF-8'));
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
@@ -131,5 +143,20 @@ class Helper
         );
 
         return $data;
+    }
+
+
+    /**
+     * @param $params
+     *
+     * @return string
+     */
+    public static function getStringToSign($params)
+    {
+        ksort($params);
+        $query = http_build_query($params);
+        $query = urldecode($query);
+
+        return $query;
     }
 }

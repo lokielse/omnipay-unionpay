@@ -5,7 +5,11 @@ namespace Omnipay\UnionPay\Message;
 use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\UnionPay\Helper;
 
-class ExpressCompletePurchaseRequest extends BaseAbstractRequest
+/**
+ * Class ExpressCompletePurchaseRequest
+ * @package Omnipay\UnionPay\Message
+ */
+class ExpressCompletePurchaseRequest extends AbstractExpressRequest
 {
 
     /**
@@ -16,7 +20,7 @@ class ExpressCompletePurchaseRequest extends BaseAbstractRequest
      */
     public function getData()
     {
-        return $this->getParameters();
+        return $this->getRequestParams();
     }
 
 
@@ -44,6 +48,17 @@ class ExpressCompletePurchaseRequest extends BaseAbstractRequest
     }
 
 
+    public function getRequestParam($key)
+    {
+        $params = $this->getRequestParams();
+        if (isset($params[$key])) {
+            return $params[$key];
+        } else {
+            return null;
+        }
+    }
+
+
     /**
      * Send the request with specified data
      *
@@ -53,8 +68,8 @@ class ExpressCompletePurchaseRequest extends BaseAbstractRequest
      */
     public function sendData($data)
     {
-
         $data['verify_success'] = Helper::verify($this->getRequestParams(), $this->getCertDir());
+        $data['is_paid']        = $data['verify_success'] && ($this->getRequestParam('respCode') == '00');
 
         return $this->response = new ExpressCompletePurchaseResponse($this, $data);
     }

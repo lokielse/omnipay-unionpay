@@ -1,44 +1,42 @@
 <?php
 
-namespace Omnipay\UnionPay;
+namespace Omnipay\UnionPay\Message;
 
-use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\UnionPay\Helper;
 
 /**
- * Class ExpressGateway
- * @package Omnipay\UnionPay
+ * Class AbstractExpressRequest
+ * @package Omnipay\UnionPay\Message
  */
-class ExpressGateway extends AbstractGateway
+abstract class AbstractExpressRequest extends AbstractRequest
 {
 
-    /**
-     * Get gateway display name
-     *
-     * This can be used by carts to get the display name for each gateway.
-     */
-    public function getName()
+    protected $sandboxEndpoint = 'https://101.231.204.80:5000/gateway/api/';
+
+    protected $productionEndpoint = 'https://gateway.95516.com/gateway/api/';
+
+    protected $methods = array (
+        'front' => 'frontTransReq.do',
+        'back'  => 'backTransReq.do',
+        'app'   => 'appTransReq.do',
+        'query' => 'queryTrans.do',
+    );
+
+
+    public function getEndpoint($type)
     {
-        return 'UnionPay_Express';
+        if ($this->getEnvironment() == 'production') {
+            return $this->productionEndpoint . $this->methods[$type];
+        } else {
+            return $this->sandboxEndpoint . $this->methods[$type];
+        }
     }
 
 
-    public function getDefaultParameters()
+    public function getEnvironment()
     {
-        return [
-            'version'        => '5.0.0',
-            'encoding'       => 'utf-8',
-            'txnType'        => '01',
-            'txnSubType'     => '01',
-            'bizType'        => '000201',
-            'signMethod'     => '01',
-            'channelType'    => '08', //07-PC，08-手机
-            'accessType'     => '0',
-            'currencyCode'   => '156',
-            'orderDesc'      => 'an order',
-            'reqReserved'    => '',
-            'defaultPayType' => '0001',
-            'environment'    => 'sandbox',
-        ];
+        return $this->getParameter('environment');
     }
 
 
@@ -78,15 +76,15 @@ class ExpressGateway extends AbstractGateway
     }
 
 
-    public function setTxnSubType($value)
-    {
-        return $this->setParameter('txnSubType', $value);
-    }
-
-
     public function getTxnSubType()
     {
         return $this->getParameter('txnSubType');
+    }
+
+
+    public function setTxnSubType($value)
+    {
+        return $this->setParameter('txnSubType', $value);
     }
 
 
@@ -192,24 +190,6 @@ class ExpressGateway extends AbstractGateway
     }
 
 
-    public function getEnvironment()
-    {
-        return $this->getParameter('environment');
-    }
-
-
-    public function setCertDir($value)
-    {
-        return $this->setParameter('certDir', $value);
-    }
-
-
-    public function getCertDir()
-    {
-        return $this->getParameter('certDir');
-    }
-
-
     public function setCertPath($value)
     {
         return $this->setParameter('certPath', $value);
@@ -258,6 +238,54 @@ class ExpressGateway extends AbstractGateway
     }
 
 
+    public function setOrderId($value)
+    {
+        return $this->setParameter('orderId', $value);
+    }
+
+
+    public function getOrderId()
+    {
+        return $this->getParameter('orderId');
+    }
+
+
+    public function setTxnTime($value)
+    {
+        return $this->setParameter('txnTime', $value);
+    }
+
+
+    public function getTxnTime()
+    {
+        return $this->getParameter('txnTime');
+    }
+
+
+    public function setTxnAmt($value)
+    {
+        return $this->setParameter('txnAmt', $value);
+    }
+
+
+    public function getTxnAmt()
+    {
+        return $this->getParameter('txnAmt');
+    }
+
+
+    public function setRequestType($value)
+    {
+        return $this->setParameter('requestType', $value);
+    }
+
+
+    public function getRequestType()
+    {
+        return $this->getParameter('requestType');
+    }
+
+
     public function setDefaultPayType($value)
     {
         return $this->setParameter('defaultPayType', $value);
@@ -270,38 +298,34 @@ class ExpressGateway extends AbstractGateway
     }
 
 
-    public function purchase(array $parameters = [ ])
+    public function setCertDir($value)
     {
-        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressPurchaseRequest', $parameters);
+        return $this->setParameter('certDir', $value);
     }
 
 
-    public function completePurchase(array $parameters = [ ])
+    public function getCertDir()
     {
-        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressCompletePurchaseRequest', $parameters);
+        return $this->getParameter('certDir');
     }
 
 
-    public function query(array $parameters = [ ])
+    protected function httpRequest($method, $data)
     {
-        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressQueryRequest', $parameters);
+        $result = Helper::sendHttpRequest($this->getEndpoint($method), $data);
+
+        parse_str($result, $data);
+
+        if (! is_array($data)) {
+            $data = array ();
+        }
+
+        return $data;
     }
 
 
-    public function consumeUndo(array $parameters = [ ])
+    protected function getCertId()
     {
-        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressConsumeUndoRequest', $parameters);
-    }
-
-
-    public function refund(array $parameters = [ ])
-    {
-        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressRefundRequest', $parameters);
-    }
-
-
-    public function fileTransfer(array $parameters = [ ])
-    {
-        return $this->createRequest('\Omnipay\UnionPay\Message\ExpressFileTransferRequest', $parameters);
+        return Helper::getCertId($this->getCertPath(), $this->getCertPassword());
     }
 }
