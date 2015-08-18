@@ -5,7 +5,11 @@ namespace Omnipay\UnionPay\Message;
 use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\UnionPay\Helper;
 
-class ExpressQueryRequest extends BaseAbstractRequest
+/**
+ * Class ExpressQueryRequest
+ * @package Omnipay\UnionPay\Message
+ */
+class ExpressQueryRequest extends AbstractExpressRequest
 {
 
     /**
@@ -35,7 +39,7 @@ class ExpressQueryRequest extends BaseAbstractRequest
 
         $data = Helper::filterData($data);
 
-        $data['signature'] = Helper::getParamsSignature($data, $this->getCertPath(), $this->getCertPassword());
+        $data['signature'] = Helper::getParamsSignatureWithRSA($data, $this->getCertPath(), $this->getCertPassword());
 
         return $data;
     }

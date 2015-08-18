@@ -5,10 +5,10 @@ namespace Omnipay\UnionPay\Message;
 use Omnipay\Common\Message\AbstractResponse;
 
 /**
- * Class ExpressCompletePurchaseResponse
+ * Class LegacyCompletePurchaseResponse
  * @package Omnipay\UnionPay\Message
  */
-class ExpressCompletePurchaseResponse extends AbstractResponse
+class LegacyCompletePurchaseResponse extends AbstractResponse
 {
 
     public function isPaid()
