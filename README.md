@@ -69,7 +69,7 @@ $response->getTradeNo(); //For APP
 $gateway    = Omnipay::create('UnionPay_Express');
 $gateway->setMerId($config['merId']);
 $gateway->setCertDir($config['certDir']); //The directory contain *.cer files
-$response = $gateway->completePurchase($order)->send();
+$response = $gateway->completePurchase(['request_params'=>$_REQUEST])->send();
 if ($response->isPaid()) {
     //pay success
 }else{
