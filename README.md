@@ -134,6 +134,7 @@ repository.
 
 - [Laravel-Omnipay](https://github.com/ignited/laravel-omnipay)
 - [Omnipay-Alipay](https://github.com/lokielse/omnipay-alipay)
+- [Omnipay-WechatPay](https://github.com/lokielse/omnipay-wechatpay)
 
 ## Support
 
