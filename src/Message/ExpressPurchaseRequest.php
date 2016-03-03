@@ -22,7 +22,7 @@ class ExpressPurchaseRequest extends AbstractExpressRequest
     {
         $this->validateData();
 
-        $data = array(
+        $data = array (
             //版本号
             'version'        => $this->getVersion(),
             //编码方式
@@ -30,9 +30,9 @@ class ExpressPurchaseRequest extends AbstractExpressRequest
             //证书ID
             'certId'         => $this->getCertId(),
             //交易类型
-            'txnType'        => '01',
+            'txnType'        => $this->getTxnSubType() ?: '01',
             //交易子类
-            'txnSubType'     => '01',
+            'txnSubType'     => $this->getTxnSubType() ?: '01',
             //业务类型
             'bizType'        => $this->getBizType(),
             //前台通知地址
