@@ -22,7 +22,7 @@ class ExpressFileTransferRequest extends AbstractExpressRequest
     {
         $this->validate('certPath', 'certPassword', 'txnTime', 'fileType', 'settleDate');
 
-        $data = array (
+        $data = array(
             'version'    => $this->getVersion(),        //版本号
             'encoding'   => $this->getEncoding(),        //编码方式
             'certId'     => $this->getCertId(),    //证书ID
@@ -90,7 +90,6 @@ class ExpressFileTransferRequest extends AbstractExpressRequest
      */
     public function sendData($data)
     {
-
         $data = $this->httpRequest('back', $data);
 
         return $this->response = new ExpressResponse($this, $data);

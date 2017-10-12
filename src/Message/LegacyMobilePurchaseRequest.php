@@ -22,7 +22,7 @@ class LegacyMobilePurchaseRequest extends AbstractLegacyMobileRequest
     {
         $this->validateData();
 
-        $data = array (
+        $data = array(
             'version'          => $this->getVersion(),
             'charset'          => $this->getEncoding(),
             'transType'        => $this->getTransType(),
@@ -77,7 +77,6 @@ class LegacyMobilePurchaseRequest extends AbstractLegacyMobileRequest
      */
     public function sendData($data)
     {
-
         $endpoint = $this->getEndpoint('trade');
 
         $result = Helper::sendHttpRequest($endpoint, $data);
