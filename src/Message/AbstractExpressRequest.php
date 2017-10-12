@@ -11,12 +11,11 @@ use Omnipay\UnionPay\Helper;
  */
 abstract class AbstractExpressRequest extends AbstractRequest
 {
-
     protected $sandboxEndpoint = 'https://101.231.204.80:5000/gateway/api/';
 
     protected $productionEndpoint = 'https://gateway.95516.com/gateway/api/';
 
-    protected $methods = array (
+    protected $methods = array(
         'front' => 'frontTransReq.do',
         'back'  => 'backTransReq.do',
         'app'   => 'appTransReq.do',
@@ -317,7 +316,7 @@ abstract class AbstractExpressRequest extends AbstractRequest
         parse_str($result, $data);
 
         if (! is_array($data)) {
-            $data = array ();
+            $data = array();
         }
 
         return $data;

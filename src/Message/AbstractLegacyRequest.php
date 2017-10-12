@@ -10,7 +10,6 @@ use Omnipay\Common\Message\AbstractRequest;
  */
 abstract class AbstractLegacyRequest extends AbstractRequest
 {
-
     public function getVersion()
     {
         return $this->getParameter('version');
