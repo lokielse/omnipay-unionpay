@@ -7,7 +7,6 @@ namespace Omnipay\UnionPay;
  */
 class Helper
 {
-
     public static function getCertId($certPath, $password)
     {
         $data = file_get_contents($certPath);
@@ -88,7 +87,6 @@ class Helper
         } else {
             throw new \Exception('certDir is not exists');
         }
-
     }
 
 
@@ -123,7 +121,7 @@ class Helper
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSLVERSION, 3);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array ('Content-type:application/x-www-form-urlencoded;charset=UTF-8'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type:application/x-www-form-urlencoded;charset=UTF-8'));
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);

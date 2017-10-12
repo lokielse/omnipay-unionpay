@@ -8,7 +8,6 @@ namespace Omnipay\UnionPay\Message;
  */
 abstract class AbstractLegacyQuickPayRequest extends AbstractLegacyRequest
 {
-
     protected $endpoints = array(
         'sandbox'    => array(
             'front' => 'http://202.101.25.184/UpopWeb/api/Pay.action',

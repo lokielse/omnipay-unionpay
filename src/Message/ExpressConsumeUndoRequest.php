@@ -76,7 +76,6 @@ class ExpressConsumeUndoRequest extends AbstractExpressRequest
      */
     public function sendData($data)
     {
-
         $data = $this->httpRequest('back', $data);
 
         return $this->response = new ExpressResponse($this, $data);

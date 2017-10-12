@@ -22,7 +22,7 @@ class LegacyQuickPayPurchaseRequest extends AbstractLegacyQuickPayRequest
     {
         $this->validateData();
 
-        $data = array (
+        $data = array(
             'version'            => $this->getVersion(),
             'charset'            => $this->getEncoding(), //UTF-8, GBK等
             'merId'              => $this->getMerId(),   //无卡商户填写
