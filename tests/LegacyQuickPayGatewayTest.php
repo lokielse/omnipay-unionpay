@@ -26,13 +26,12 @@ class LegacyQuickPayGatewayTest extends GatewayTestCase
         $this->gateway->setReturnUrl('http://example.com/return');
         $this->gateway->setNotifyUrl('http://example.com/notify');
         $this->gateway->setEnvironment('production');
-
     }
 
 
     public function testPurchase()
     {
-        $order = array (
+        $order = array(
             'orderNumber' => date('YmdHis'), //Your order ID
             'orderTime'   => date('YmdHis'), //Should be format 'YmdHis'
             'title'       => 'My order title', //Order Title
@@ -50,8 +49,8 @@ class LegacyQuickPayGatewayTest extends GatewayTestCase
 
     public function testCompletePurchase()
     {
-        $options = array (
-            'request_params' => array (
+        $options = array(
+            'request_params' => array(
                 'certId'    => '3474813271258769001041842579301293446',
                 'signature' => 'xxxxxxx'
             ),

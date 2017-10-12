@@ -24,7 +24,7 @@ class ExpressGateway extends AbstractGateway
 
     public function getDefaultParameters()
     {
-        return array (
+        return array(
             'version'        => '5.0.0',
             'encoding'       => 'utf-8',
             'txnType'        => '01',

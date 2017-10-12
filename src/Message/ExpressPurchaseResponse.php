@@ -12,7 +12,6 @@ use Omnipay\UnionPay\Helper;
  */
 class ExpressPurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
-
     public function isSuccessful()
     {
         return true;

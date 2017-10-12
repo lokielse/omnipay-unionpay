@@ -20,13 +20,13 @@ class LegacyQuickPayGateway extends AbstractLegacyGateway
     }
 
 
-    public function purchase(array $parameters = array ())
+    public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\LegacyQuickPayPurchaseRequest', $parameters);
     }
 
 
-    public function completePurchase(array $parameters = array ())
+    public function completePurchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\LegacyCompletePurchaseRequest', $parameters);
     }
