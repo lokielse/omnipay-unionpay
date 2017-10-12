@@ -22,7 +22,7 @@ class ExpressPurchaseRequest extends AbstractExpressRequest
     {
         $this->validateData();
 
-        $data = array (
+        $data = array(
             //版本号
             'version'        => $this->getVersion(),
             //编码方式

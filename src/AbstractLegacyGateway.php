@@ -10,10 +10,9 @@ use Omnipay\Common\AbstractGateway;
  */
 abstract class AbstractLegacyGateway extends AbstractGateway
 {
-
     public function getDefaultParameters()
     {
-        return array (
+        return array(
             'version'       => '1.0.0',
             'encoding'      => 'utf-8',
             'transType'     => '01',

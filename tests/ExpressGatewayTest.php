@@ -27,13 +27,12 @@ class ExpressGatewayTest extends GatewayTestCase
         $this->gateway->setCertPassword('000000');
         $this->gateway->setReturnUrl('http://example.com/return');
         $this->gateway->setNotifyUrl('http://example.com/notify');
-
     }
 
 
     public function testPurchase()
     {
-        $order = array (
+        $order = array(
             'orderId' => date('YmdHis'), //Your order ID
             'txnTime' => date('YmdHis'), //Should be format 'YmdHis'
             'title'   => 'My order title', //Order Title
@@ -52,8 +51,8 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testCompletePurchase()
     {
-        $options = array (
-            'request_params' => array (
+        $options = array(
+            'request_params' => array(
                 'certId'    => '3474813271258769001041842579301293446',
                 'signature' => 'xxxxxxx'
             ),
@@ -69,7 +68,7 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testQuery()
     {
-        $options = array (
+        $options = array(
             'certId'  => '3474813271258769001041842579301293446',
             'orderId' => 'xxxxxxx',
             'txnTime' => date('YmdHis'),
@@ -86,7 +85,7 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testConsumeUndo()
     {
-        $options = array (
+        $options = array(
             'certId'  => '3474813271258769001041842579301293446',
             'orderId' => 'xxxxxxx',
             'txnAmt'  => '100',
@@ -104,7 +103,7 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testRefund()
     {
-        $options = array (
+        $options = array(
             'certId'  => '3474813271258769001041842579301293446',
             'orderId' => '222222',
             'queryId' => '333333',
@@ -122,7 +121,7 @@ class ExpressGatewayTest extends GatewayTestCase
 
     public function testFileTransfer()
     {
-        $options = array (
+        $options = array(
             'certId'     => '3474813271258769001041842579301293446',
             'txnTime'    => date('YmdHis'),
             'fileType'   => '00',
