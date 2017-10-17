@@ -10,6 +10,7 @@ use Omnipay\Common\Message\AbstractResponse;
  */
 class LegacyCompletePurchaseResponse extends AbstractResponse
 {
+
     public function isPaid()
     {
         return $this->data['is_paid'];
