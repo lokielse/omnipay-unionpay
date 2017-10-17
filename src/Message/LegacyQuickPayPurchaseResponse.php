@@ -11,7 +11,6 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class LegacyQuickPayPurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
-
     public function isSuccessful()
     {
         return true;

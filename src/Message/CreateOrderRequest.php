@@ -8,7 +8,6 @@ namespace Omnipay\UnionPay\Message;
  */
 class CreateOrderRequest extends ExpressPurchaseRequest
 {
-
     public function sendData($data)
     {
         $data = $this->httpRequest('app', $data);
