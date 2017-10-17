@@ -6,7 +6,6 @@ use Omnipay\Common\Message\AbstractRequest;
 
 abstract class BaseAbstractRequest extends AbstractRequest
 {
-
     protected $sandboxEndpoint = 'https://101.231.204.80:5000/gateway/api/';
 
     protected $productionEndpoint = 'https://gateway.95516.com/gateway/api/';

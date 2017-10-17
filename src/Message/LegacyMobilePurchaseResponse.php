@@ -11,7 +11,6 @@ use Omnipay\Common\Message\ResponseInterface;
  */
 class LegacyMobilePurchaseResponse extends AbstractResponse implements ResponseInterface
 {
-
     public function isSuccessful()
     {
         return true;

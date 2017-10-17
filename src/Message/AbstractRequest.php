@@ -12,7 +12,6 @@ use Omnipay\UnionPay\Common\Signer;
  */
 abstract class AbstractRequest extends BaseAbstractRequest
 {
-
     protected $sandboxEndpoint = 'https://gateway.test.95516.com/gateway/api/';
 
     protected $productionEndpoint = 'https://gateway.95516.com/gateway/api/';

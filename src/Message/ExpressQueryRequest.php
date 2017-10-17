@@ -53,7 +53,6 @@ class ExpressQueryRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-
         $data = $this->httpRequest('query', $data);
 
         return $this->response = new ExpressResponse($this, $data);
