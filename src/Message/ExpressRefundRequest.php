@@ -71,7 +71,6 @@ class ExpressRefundRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-
         $data = $this->httpRequest('back', $data);
 
         return $this->response = new ExpressResponse($this, $data);

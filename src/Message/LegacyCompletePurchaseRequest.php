@@ -64,7 +64,6 @@ class LegacyCompletePurchaseRequest extends AbstractLegacyQuickPayRequest
      */
     public function sendData($data)
     {
-
         $data['verify_success'] = $this->isSignMatch();
         $data['is_paid']        = $data['verify_success'] && ($this->getRequestParam('respCode') == '00');
 
