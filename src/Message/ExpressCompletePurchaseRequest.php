@@ -3,13 +3,13 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
+use Omnipay\UnionPay\Common\Signer;
 
 /**
  * Class ExpressCompletePurchaseRequest
  * @package Omnipay\UnionPay\Message
  */
-class ExpressCompletePurchaseRequest extends AbstractExpressRequest
+class ExpressCompletePurchaseRequest extends AbstractRequest
 {
 
     /**
@@ -68,8 +68,17 @@ class ExpressCompletePurchaseRequest extends AbstractExpressRequest
      */
     public function sendData($data)
     {
-        $data['verify_success'] = Helper::verify($this->getRequestParams(), $this->getCertDir());
-        $data['is_paid']        = $data['verify_success'] && ($this->getRequestParam('respCode') == '00');
+        $signer    = new Signer($data);
+        $content   = $signer->getContentToSign();
+        $publicKey = $this->getPublicKey();
+
+        if (! $this->getPublicKey()) {
+            $publicKey = Signer::findPublicKey($data['certId'], $this->getCertDir());
+        }
+
+        $data['verify_success'] = $signer->verifyWithRSA($content, $data['signature'], $publicKey);
+
+        $data['is_paid'] = $data['verify_success'] && ($this->getRequestParam('respCode') == '00');
 
         return $this->response = new ExpressCompletePurchaseResponse($this, $data);
     }

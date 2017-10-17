@@ -3,7 +3,6 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
 
 /**
  * Class LegacyQuickPayPurchaseRequest
@@ -49,12 +48,12 @@ class LegacyQuickPayPurchaseRequest extends AbstractLegacyQuickPayRequest
             'defaultBankNumber'  => '',
             'transTimeout'       => '',
             'merReserved'        => '',
+            'signMethod'         => 'md5',
         );
 
-        $data = Helper::filterData($data);
+        $data = $this->filter($data);
 
-        $data['signature']  = Helper::getParamsSignatureWithMD5($data, $this->getSecretKey());
-        $data['signMethod'] = 'md5';
+        $data['signature'] = $this->sign($data);
 
         return $data;
     }
@@ -67,11 +66,9 @@ class LegacyQuickPayPurchaseRequest extends AbstractLegacyQuickPayRequest
             'orderAmount',
             'orderNumber',
             'orderTime',
-            'orderCurrency',
-            //'customerIp',
+            'orderCurrency', //'customerIp',
             'returnUrl',
-            'notifyUrl',
-            //'showUrl',
+            'notifyUrl', //'showUrl',
             'title',
             'secretKey'
         );

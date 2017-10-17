@@ -3,10 +3,10 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\UnionPay\Helper;
 
 abstract class BaseAbstractRequest extends AbstractRequest
 {
+
     protected $sandboxEndpoint = 'https://101.231.204.80:5000/gateway/api/';
 
     protected $productionEndpoint = 'https://gateway.95516.com/gateway/api/';
@@ -307,20 +307,19 @@ abstract class BaseAbstractRequest extends AbstractRequest
 
     protected function httpRequest($method, $data)
     {
-        $result = Helper::sendHttpRequest($this->getEndpoint($method), $data);
+        $url  = $this->getEndpoint($method);
+        $body = http_build_query($data);
 
-        parse_str($result, $data);
+        $response = $this->httpClient->post($url)/**/
+        ->setBody($body, 'application/x-www-form-urlencoded')/**/
+        ->send()->getBody();
+
+        parse_str($response, $data);
 
         if (! is_array($data)) {
             $data = array();
         }
 
         return $data;
-    }
-
-
-    protected function getCertId()
-    {
-        return Helper::getCertId($this->getCertPath(), $this->getCertPassword());
     }
 }

@@ -2,7 +2,8 @@
 
 namespace Omnipay\UnionPay\Message;
 
-use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\UnionPay\Common\Signer;
 
 /**
  * Class AbstractLegacyRequest
@@ -10,6 +11,7 @@ use Omnipay\Common\Message\AbstractRequest;
  */
 abstract class AbstractLegacyRequest extends AbstractRequest
 {
+
     public function getVersion()
     {
         return $this->getParameter('version');
@@ -205,5 +207,28 @@ abstract class AbstractLegacyRequest extends AbstractRequest
     public function getEndpoint($type)
     {
         return $this->endpoints[$this->getEnvironment()][$type];
+    }
+
+
+    protected function sign($params, $signType = 'MD5')
+    {
+        $signer = new Signer($params);
+        $signer->setIgnores(['sign']);
+
+        $signType = strtoupper($signType);
+
+        if ($signType == 'MD5') {
+            $sign = $signer->signWithMD5($this->getSecretKey());
+        } else {
+            throw new InvalidRequestException('The signType is invalid');
+        }
+
+        return $sign;
+    }
+
+
+    protected function filter($params)
+    {
+        return array_filter($params, 'strlen');
     }
 }

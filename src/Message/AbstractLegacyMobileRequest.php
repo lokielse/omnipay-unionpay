@@ -8,6 +8,7 @@ namespace Omnipay\UnionPay\Message;
  */
 abstract class AbstractLegacyMobileRequest extends AbstractLegacyRequest
 {
+
     protected $endpoints = array(
         'sandbox'    => array(
             'trade' => 'http://222.66.233.198:8080/gateway/merchant/trade',

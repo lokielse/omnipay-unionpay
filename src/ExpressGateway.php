@@ -270,9 +270,75 @@ class ExpressGateway extends AbstractGateway
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getCertId()
+    {
+        return $this->getParameter('cert_id');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setCertId($value)
+    {
+        return $this->setParameter('cert_id', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPrivateKey()
+    {
+        return $this->getParameter('private_key');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setPrivateKey($value)
+    {
+        return $this->setParameter('private_key', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPublicKey()
+    {
+        return $this->getParameter('public_key');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setPublicKey($value)
+    {
+        return $this->setParameter('public_key', $value);
+    }
+
+
     public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\ExpressPurchaseRequest', $parameters);
+    }
+
+
+    public function createOrder(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\UnionPay\Message\CreateOrderRequest', $parameters);
     }
 
 

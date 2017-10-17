@@ -3,7 +3,7 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
+use Omnipay\UnionPay\Common\Signer;
 
 /**
  * Class LegacyCompletePurchaseRequest
@@ -28,9 +28,7 @@ class LegacyCompletePurchaseRequest extends AbstractLegacyQuickPayRequest
 
     private function validateData()
     {
-        $this->validate(
-            'request_params'
-        );
+        $this->validate('request_params');
     }
 
 
@@ -66,6 +64,7 @@ class LegacyCompletePurchaseRequest extends AbstractLegacyQuickPayRequest
      */
     public function sendData($data)
     {
+
         $data['verify_success'] = $this->isSignMatch();
         $data['is_paid']        = $data['verify_success'] && ($this->getRequestParam('respCode') == '00');
 
@@ -75,11 +74,13 @@ class LegacyCompletePurchaseRequest extends AbstractLegacyQuickPayRequest
 
     protected function isSignMatch()
     {
-        $requestSign = $this->getRequestParam('signature');
+        $signature = $this->getRequestParam('signature');
 
-        $query = Helper::getStringToSign($this->getParamsToSign());
+        $signer = new Signer();
 
-        return $requestSign === md5($query . '&' . md5($this->getSecretKey()));
+        $match = $signer->verifyWithMD5($this->getParamsToSign(), $signature, $this->getSecretKey());
+
+        return $match;
     }
 
 
