@@ -76,6 +76,7 @@ class LegacyCompletePurchaseRequest extends AbstractLegacyQuickPayRequest
         $signature = $this->getRequestParam('signature');
 
         $signer = new Signer();
+        $signer->setIgnores(array('signature'));
 
         $match = $signer->verifyWithMD5($this->getParamsToSign(), $signature, $this->getSecretKey());
 
