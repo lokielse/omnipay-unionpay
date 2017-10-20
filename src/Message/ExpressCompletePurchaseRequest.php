@@ -68,7 +68,8 @@ class ExpressCompletePurchaseRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $signer    = new Signer($data);
+        $signer = new Signer($data);
+        $signer->setIgnores(array('signature'));
         $content   = $signer->getContentToSign();
         $publicKey = $this->getPublicKey();
 
