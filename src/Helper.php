@@ -127,6 +127,11 @@ class Helper
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
+
+        if ($result === false) {
+            throw new \Exception(curl_error($ch));
+        }
+
         curl_close($ch);
 
         return $result;
