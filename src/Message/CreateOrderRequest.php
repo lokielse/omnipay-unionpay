@@ -4,6 +4,7 @@ namespace Omnipay\UnionPay\Message;
 
 /**
  * Class CreateOrderRequest
+ *
  * @package Omnipay\UnionPay\Message
  */
 class CreateOrderRequest extends ExpressPurchaseRequest
