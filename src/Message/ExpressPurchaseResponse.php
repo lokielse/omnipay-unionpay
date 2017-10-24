@@ -4,7 +4,6 @@ namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
-use Omnipay\UnionPay\Helper;
 
 /**
  * Class ExpressPurchaseResponse
@@ -27,6 +26,15 @@ class ExpressPurchaseResponse extends AbstractResponse implements RedirectRespon
     public function getRedirectUrl()
     {
         return $this->getRequest()->getEndpoint('front');
+    }
+
+
+    /**
+     * @return \Omnipay\Common\Message\RequestInterface|ExpressPurchaseRequest
+     */
+    public function getRequest()
+    {
+        return parent::getRequest();
     }
 
 
@@ -54,12 +62,31 @@ class ExpressPurchaseResponse extends AbstractResponse implements RedirectRespon
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>跳转中...</title>
 </head>
-<body  onload="javascript:document.pay_form.submit();">
+<body onload="javascript:document.pay_form.submit();">
     <form id="pay_form" name="pay_form" action="{$action}" method="{$method}">
         {$fields}
     </form>
 </body>
 </html>
+eot;
+
+        return $html;
+    }
+
+
+    public function getRedirectForm()
+    {
+        $action = $this->getRequest()->getEndpoint('front');
+        $fields = $this->getFormFields();
+        $method = $this->getRedirectMethod();
+
+        $html = <<<eot
+    <form id="pay_form" name="pay_form" action="{$action}" method="{$method}">
+        {$fields}
+    </form>
+    <script>
+        document.pay_form.submit();
+    </script>
 eot;
 
         return $html;
@@ -77,15 +104,15 @@ eot;
     }
 
 
+    /**
+     * @deprecated use $gateway->createOrder() instead
+     * @return null|string
+     */
     public function getTradeNo()
     {
-        $endpoint = $this->getRequest()->getEndpoint('app');
+        $data = $this->getRequest()->getHttpRequest('app', $this->data);
 
-        $result = Helper::sendHttpRequest($endpoint, $this->data);
-
-        parse_str($result, $data);
-
-        if (is_array($data) && isset($data['tn'])) {
+        if (isset($data['tn'])) {
             return $data['tn'];
         } else {
             return null;

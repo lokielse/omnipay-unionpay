@@ -2,16 +2,17 @@
 
 namespace Omnipay\UnionPay\Message;
 
-use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\UnionPay\Helper;
+use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
+use Omnipay\UnionPay\Common\Signer;
 
 /**
- * Class AbstractExpressRequest
+ * Class AbstractRequest
  * @package Omnipay\UnionPay\Message
  */
-abstract class AbstractExpressRequest extends AbstractRequest
+abstract class AbstractRequest extends BaseAbstractRequest
 {
-    protected $sandboxEndpoint = 'https://101.231.204.80:5000/gateway/api/';
+    protected $sandboxEndpoint = 'https://gateway.test.95516.com/gateway/api/';
 
     protected $productionEndpoint = 'https://gateway.95516.com/gateway/api/';
 
@@ -309,11 +310,76 @@ abstract class AbstractExpressRequest extends AbstractRequest
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getCertId()
+    {
+        return $this->getParameter('cert_id');
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPrivateKey()
+    {
+        return $this->getParameter('private_key');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setPrivateKey($value)
+    {
+        return $this->setParameter('private_key', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPublicKey()
+    {
+        return $this->getParameter('public_key');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setPublicKey($value)
+    {
+        return $this->setParameter('public_key', $value);
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setCertId($value)
+    {
+        return $this->setParameter('cert_id', $value);
+    }
+
+
     protected function httpRequest($method, $data)
     {
-        $result = Helper::sendHttpRequest($this->getEndpoint($method), $data);
+        $url  = $this->getEndpoint($method);
+        $body = http_build_query($data);
 
-        parse_str($result, $data);
+        $response = $this->httpClient->post($url)/**/
+        ->setBody($body, 'application/x-www-form-urlencoded')/**/
+        ->send()->getBody();
+
+        parse_str($response, $data);
 
         if (! is_array($data)) {
             $data = array();
@@ -323,8 +389,41 @@ abstract class AbstractExpressRequest extends AbstractRequest
     }
 
 
-    protected function getCertId()
+    protected function getTheCertId()
     {
-        return Helper::getCertId($this->getCertPath(), $this->getCertPassword());
+        if ($this->getCertId()) {
+            return $this->getCertId();
+        } else {
+            $cert = Signer::readCert($this->getCertPath(), $this->getCertPassword());
+
+            return Signer::readCertId($cert);
+        }
+    }
+
+
+    protected function sign($params, $signType = 'RSA')
+    {
+        $signer = new Signer($params);
+        $signer->setIgnores(array('sign'));
+
+        $signType = strtoupper($signType);
+
+        if ($signType == 'RSA') {
+            if ($this->getPrivateKey()) {
+                $sign = $signer->signWithRSA($this->getPrivateKey());
+            } else {
+                $sign = $signer->signWithCert($this->getCertPath(), $this->getCertPassword());
+            }
+        } else {
+            throw new InvalidRequestException('The signType is invalid');
+        }
+
+        return $sign;
+    }
+
+
+    protected function filter($params)
+    {
+        return array_filter($params, 'strlen');
     }
 }

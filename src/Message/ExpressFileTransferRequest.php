@@ -3,13 +3,12 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
 
 /**
  * Class ExpressFileTransferRequest
  * @package Omnipay\UnionPay\Message
  */
-class ExpressFileTransferRequest extends AbstractExpressRequest
+class ExpressFileTransferRequest extends AbstractRequest
 {
 
     /**
@@ -20,7 +19,7 @@ class ExpressFileTransferRequest extends AbstractExpressRequest
      */
     public function getData()
     {
-        $this->validate('certPath', 'certPassword', 'txnTime', 'fileType', 'settleDate');
+        $this->validate('txnTime', 'fileType', 'settleDate');
 
         $data = array(
             'version'    => $this->getVersion(),        //版本号
@@ -37,9 +36,9 @@ class ExpressFileTransferRequest extends AbstractExpressRequest
             'fileType'   => $this->getFileType(),        //文件类型
         );
 
-        $data = Helper::filterData($data);
+        $data = $this->filter($data);
 
-        $data['signature'] = Helper::getParamsSignatureWithRSA($data, $this->getCertPath(), $this->getCertPassword());
+        $data['signature'] = $this->sign($data);
 
         return $data;
     }

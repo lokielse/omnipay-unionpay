@@ -3,13 +3,12 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
 
 /**
  * Class ExpressQueryRequest
  * @package Omnipay\UnionPay\Message
  */
-class ExpressQueryRequest extends AbstractExpressRequest
+class ExpressQueryRequest extends AbstractRequest
 {
 
     /**
@@ -20,7 +19,7 @@ class ExpressQueryRequest extends AbstractExpressRequest
      */
     public function getData()
     {
-        $this->validate('certPath', 'certPassword', 'orderId', 'txnTime', 'txnAmt');
+        $this->validate('orderId', 'txnTime', 'txnAmt');
 
         $data = array(
             'version'     => $this->getVersion(),
@@ -37,9 +36,9 @@ class ExpressQueryRequest extends AbstractExpressRequest
             'txnTime'     => $this->getTxnTime(),
         );
 
-        $data = Helper::filterData($data);
+        $data = $this->filter($data);
 
-        $data['signature'] = Helper::getParamsSignatureWithRSA($data, $this->getCertPath(), $this->getCertPassword());
+        $data['signature'] = $this->sign($data);
 
         return $data;
     }

@@ -3,13 +3,12 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
 
 /**
  * Class ExpressPurchaseRequest
  * @package Omnipay\UnionPay\Message
  */
-class ExpressPurchaseRequest extends AbstractExpressRequest
+class ExpressPurchaseRequest extends AbstractRequest
 {
 
     /**
@@ -28,7 +27,7 @@ class ExpressPurchaseRequest extends AbstractExpressRequest
             //编码方式
             'encoding'       => $this->getEncoding(),
             //证书ID
-            'certId'         => $this->getCertId(),
+            'certId'         => $this->getTheCertId(),
             //交易类型
             'txnType'        => $this->getTxnSubType() ?: '01',
             //交易子类
@@ -63,9 +62,9 @@ class ExpressPurchaseRequest extends AbstractExpressRequest
             'reqReserved'    => $this->getReqReserved(),
         );
 
-        $data = Helper::filterData($data);
+        $data = $this->filter($data);
 
-        $data['signature'] = Helper::getParamsSignatureWithRSA($data, $this->getCertPath(), $this->getCertPassword());
+        $data['signature'] = $this->sign($data);
 
         return $data;
     }
@@ -73,17 +72,7 @@ class ExpressPurchaseRequest extends AbstractExpressRequest
 
     private function validateData()
     {
-        $this->validate(
-            'certPath',
-            'certPassword',
-            'returnUrl',
-            'notifyUrl',
-            'merId',
-            'orderId',
-            'txnTime',
-            'orderDesc',
-            'txnAmt'
-        );
+        $this->validate('returnUrl', 'notifyUrl', 'merId', 'orderId', 'txnTime', 'orderDesc', 'txnAmt');
     }
 
 
@@ -97,5 +86,14 @@ class ExpressPurchaseRequest extends AbstractExpressRequest
     public function sendData($data)
     {
         return $this->response = new ExpressPurchaseResponse($this, $data);
+    }
+
+
+    /**
+     * @deprecated
+     */
+    public function getHttpRequest($method, $data)
+    {
+        return $this->httpRequest($method, $data);
     }
 }

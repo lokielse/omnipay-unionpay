@@ -1,10 +1,11 @@
 <?php
 
-namespace Omnipay\UnionPay;
+namespace Omnipay\UnionPay\Tests;
 
-use Omnipay\Alipay\Message\PurchaseResponse;
 use Omnipay\Omnipay;
 use Omnipay\Tests\GatewayTestCase;
+use Omnipay\UnionPay\LegacyMobileGateway;
+use Omnipay\UnionPay\Message\LegacyMobilePurchaseResponse;
 
 class LegacyMobileGatewayTest extends GatewayTestCase
 {
@@ -39,7 +40,7 @@ class LegacyMobileGatewayTest extends GatewayTestCase
         );
 
         /**
-         * @var PurchaseResponse $response
+         * @var LegacyMobilePurchaseResponse $response
          */
         $response = $this->gateway->purchase($order)->send();
         $this->assertTrue($response->isSuccessful());
@@ -58,7 +59,7 @@ class LegacyMobileGatewayTest extends GatewayTestCase
         );
 
         /**
-         * @var PurchaseResponse $response
+         * @var LegacyMobilePurchaseResponse $response
          */
         $response = $this->gateway->completePurchase($options)->send();
         $this->assertFalse($response->isSuccessful());
