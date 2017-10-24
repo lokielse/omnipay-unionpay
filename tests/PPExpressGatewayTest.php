@@ -5,9 +5,10 @@ namespace Omnipay\UnionPay\Tests;
 use Omnipay\Omnipay;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\UnionPay\ExpressGateway;
+use Omnipay\UnionPay\Message\CreateOrderResponse;
 use Omnipay\UnionPay\Message\ExpressPurchaseResponse;
 
-class ExpressGatewayTest extends GatewayTestCase
+class PPExpressGatewayTest extends GatewayTestCase
 {
 
     /**
@@ -17,15 +18,23 @@ class ExpressGatewayTest extends GatewayTestCase
 
     protected $options;
 
+    protected $merId = '123456789';
+
+    protected $certId = '6860234080247374318';
+
+    protected $privateKey = '/Assets/private_key.pem';
+
+    protected $publicKey = '/Assets/verify_sign_acp.cer';
+
 
     public function setUp()
     {
         parent::setUp();
         $this->gateway = Omnipay::create('UnionPay_Express');
-        $this->gateway->setMerId('123456789');
-        $this->gateway->setCertDir(__DIR__ . '/Assets/'); // .pfx file
-        $this->gateway->setCertPath(__DIR__ . '/Assets/PM_700000000000001_acp.pfx'); // .pfx file
-        $this->gateway->setCertPassword('000000');
+        $this->gateway->setMerId($this->merId);
+        $this->gateway->setCertId($this->certId);
+        $this->gateway->setPrivateKey(file_get_contents(__DIR__ . $this->privateKey));
+        $this->gateway->setPublicKey(file_get_contents(__DIR__ . $this->publicKey));
         $this->gateway->setReturnUrl('http://example.com/return');
         $this->gateway->setNotifyUrl('http://example.com/notify');
     }
@@ -47,6 +56,24 @@ class ExpressGatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
         $this->assertNotEmpty($response->getRedirectHtml());
+    }
+
+
+    public function testCreateOrder()
+    {
+        $order = array(
+            'orderId' => date('YmdHis'), //Your order ID
+            'txnTime' => date('YmdHis'), //Should be format 'YmdHis'
+            'title'   => 'My order title', //Order Title
+            'txnAmt'  => '100', //Order Total Fee
+        );
+
+        /**
+         * @var CreateOrderResponse $response
+         */
+        $response = $this->gateway->createOrder($order)->send();
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
     }
 
 

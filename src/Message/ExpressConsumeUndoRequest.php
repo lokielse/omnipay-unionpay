@@ -3,13 +3,12 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
 
 /**
  * Class ExpressConsumeUndoRequest
  * @package Omnipay\UnionPay\Message
  */
-class ExpressConsumeUndoRequest extends AbstractExpressRequest
+class ExpressConsumeUndoRequest extends AbstractRequest
 {
 
     /**
@@ -20,7 +19,7 @@ class ExpressConsumeUndoRequest extends AbstractExpressRequest
      */
     public function getData()
     {
-        $this->validate('certPath', 'certPassword', 'orderId', 'txnTime', 'txnAmt', 'queryId');
+        $this->validate('orderId', 'txnTime', 'txnAmt', 'queryId');
 
         $data = array(
             'version'     => $this->getVersion(),        //版本号
@@ -43,13 +42,9 @@ class ExpressConsumeUndoRequest extends AbstractExpressRequest
             //请求方保留域，透传字段，查询、通知、对账文件中均会原样出现
         );
 
-        $data = Helper::filterData($data);
+        $data = $this->filter($data);
 
-        $data['signature'] = Helper::getParamsSignatureWithRSA(
-            $data,
-            $this->getCertPath(),
-            $this->getCertPassword()
-        );
+        $data['signature'] = $this->sign($data);
 
         return $data;
     }

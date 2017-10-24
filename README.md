@@ -1,10 +1,11 @@
 # Omnipay: UnionPay
 
-**UnionPay driver for the Omnipay PHP payment processing library**
-
 [![Build Status](https://travis-ci.org/lokielse/omnipay-unionpay.png?branch=master)](https://travis-ci.org/lokielse/omnipay-unionpay)
 [![Latest Stable Version](https://poser.pugx.org/lokielse/omnipay-unionpay/version.png)](https://packagist.org/packages/lokielse/omnipay-unionpay)
 [![Total Downloads](https://poser.pugx.org/lokielse/omnipay-unionpay/d/total.png)](https://packagist.org/packages/lokielse/omnipay-unionpay)
+
+**UnionPay driver for the Omnipay PHP payment processing library**
+
 
 [Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements UnionPay support for Omnipay.
@@ -17,7 +18,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "lokielse/omnipay-unionpay": "dev-master"
+        "lokielse/omnipay-unionpay": "^0.4"
     }
 }
 ```
@@ -31,7 +32,6 @@ And run composer to update your dependencies:
 
 The following gateways are provided by this package:
 
-
 * Union_Express (Union Express Checkout) 银联全产品网关（PC，APP，WAP支付）
 * Union_LegacyMobile (Union Legacy Mobile Checkout) 银联老网关（APP）
 * Union_LegacyQuickPay (Union Legacy QuickPay Checkout) 银联老网关（PC）
@@ -40,13 +40,31 @@ The following gateways are provided by this package:
 
 Sandbox Param can be found at: [UnionPay Developer Center](https://open.unionpay.com/ajweb/account/testPara)
 
+## Prepare
+
+How to get `PrivateKey`, `PublicKey`, `Cert ID`:
+
+```
+0. Prepare cert.pfx and its password, verify_sign_acp.cer
+
+1. Get Private Key
+$ openssl pkcs12 -in cert.pfx  -nocerts -nodes | openssl rsa -out private_key.pem
+
+2. Public key is verify_sign_acp.cer
+
+3. Get Cert ID
+$ openssl pkcs12 -in cert.pfx -out cert.pem -nokeys
+$ openssl x509 -in cert.pem -serial -noout //result hex eg: XXXXXXXXXX
+$ echo $((16#XXXXXXXXXX)) //Convert hex to decimal
+```
+
 ### Consume
 
 ```php
 $gateway    = Omnipay::create('UnionPay_Express');
 $gateway->setMerId($config['merId']);
-$gateway->setCertPath($config['certPath']); // .pfx file
-$gateway->setCertPassword($config['certPassword']);
+$gateway->setCertId($config['certId']);
+$gateway->setPrivateKey($config['privateKey']); // path or content
 $gateway->setReturnUrl($config['returnUrl']);
 $gateway->setNotifyUrl($config['notifyUrl']);
 
@@ -57,10 +75,13 @@ $order = [
     'txnAmt'    => '100', //Order Total Fee
 ];
 
+//For PC/Wap
 $response = $gateway->purchase($order)->send();
+$response->getRedirectHtml();
 
-$response->getRedirectHtml(); //For PC/Wap
-$response->getTradeNo(); //For APP
+//For APP
+$response = $gateway->createOrder($order)->send();
+$response->getTradeNo();
 
 ```
 
@@ -68,8 +89,10 @@ $response->getTradeNo(); //For APP
 ```php
 $gateway    = Omnipay::create('UnionPay_Express');
 $gateway->setMerId($config['merId']);
-$gateway->setCertDir($config['certDir']); //The directory contain *.cer files
+$gateway->setPublicKey($config['publicKey']); // path or content
+
 $response = $gateway->completePurchase(['request_params'=>$_REQUEST])->send();
+
 if ($response->isPaid()) {
     //pay success
 }else{

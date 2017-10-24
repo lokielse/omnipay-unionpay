@@ -3,7 +3,6 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\UnionPay\Helper;
 
 /**
  * Class LegacyMobilePurchaseRequest
@@ -36,12 +35,12 @@ class LegacyMobilePurchaseRequest extends AbstractLegacyMobileRequest
             'orderAmount'      => $this->getOrderAmount(),
             'orderCurrency'    => $this->getOrderCurrency(),
             'reqReserved'      => '',
+            'signMethod'       => 'md5',
         );
 
-        $data = Helper::filterData($data);
+        $data = $this->filter($data);
 
-        $data['signature']  = Helper::getParamsSignatureWithMD5($data, $this->getSecretKey());
-        $data['signMethod'] = 'md5';
+        $data['signature'] = $this->sign($data);
 
         return $data;
     }
@@ -53,12 +52,10 @@ class LegacyMobilePurchaseRequest extends AbstractLegacyMobileRequest
             'version',
             'encoding',
             'transType',
-            'merId',
-            //'returnUrl',
+            'merId', //'returnUrl',
             'notifyUrl',
             'title',
-            'orderTime',
-            //'orderTimeout',
+            'orderTime', //'orderTimeout',
             'orderNumber',
             'orderAmount',
             'orderCurrency',
@@ -77,15 +74,7 @@ class LegacyMobilePurchaseRequest extends AbstractLegacyMobileRequest
      */
     public function sendData($data)
     {
-        $endpoint = $this->getEndpoint('trade');
-
-        $result = Helper::sendHttpRequest($endpoint, $data);
-
-        parse_str($result, $data);
-
-        if (! is_array($data)) {
-            $data = array();
-        }
+        $data = $this->httpRequest('trade', $data);
 
         return $this->response = new LegacyMobilePurchaseResponse($this, $data);
     }
