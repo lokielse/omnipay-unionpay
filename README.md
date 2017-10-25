@@ -102,7 +102,7 @@ if ($response->isPaid()) {
 
 ### Query Order Status
 ```php
-$response = $gateway->Omnipay::queryStatus([
+$response = $gateway->query([
     'orderId' => '20150815121214', //Your site trade no, not union tn.
     'txnTime' => '20150815121214', //Order trade time
     'txnAmt'  => '200', //Order total fee
