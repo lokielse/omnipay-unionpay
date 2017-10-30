@@ -185,4 +185,24 @@ class WtzGatewayTest extends GatewayTestCase
         $response = $this->gateway->consume($params)->send();
         $this->assertTrue($response->isSuccessful());
     }
+
+
+    public function testRefund()
+    {
+        $params = array(
+            'orderId'   => date('YmdHis'),
+            'origQryId' => 'xxxxxxxxxxxxxx',
+            'txnTime'   => date('YmdHis'),
+            'txnAmt'    => 100,
+            'trId'      => '62000000001',
+            'token'     => '6235240000020757577',
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzRefundResponse $response
+         */
+        $response = $this->gateway->refund($params)->send();
+        dd($response->getData());
+        $this->assertTrue($response->isSuccessful());
+    }
 }

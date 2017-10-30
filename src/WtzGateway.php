@@ -130,4 +130,10 @@ class WtzGateway extends ExpressGateway
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\WtzConsumeRequest', $parameters);
     }
+
+
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\UnionPay\Message\WtzRefundRequest', $parameters);
+    }
 }
