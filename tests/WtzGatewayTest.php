@@ -42,12 +42,12 @@ class WtzGatewayTest extends GatewayTestCase
             'trId'         => '62000000001',
             'accNo'        => '6226090000000048',
             'customerInfo' => array(
-                'phoneNo'    => '18100000000', //手机号
-                'certifTp'   => '01', //证件类型，01-身份证
-                'certifId'   => '510265790128303', //证件号，15位身份证不校验尾号，18位会校验尾号，请务必在前端写好校验代码
-                'customerNm' => '张三', //姓名
+                'phoneNo'    => '18100000000', //Phone Number
+                'certifTp'   => '01', //ID Card
+                'certifId'   => '510265790128303', //ID Card Number，15位身份证不校验尾号，18位会校验尾号，请务必在前端写好校验代码
+                'customerNm' => '张三', // Name
                 //'cvn2'       => '248', //cvn2
-                //'expired'    => '1912', //有效期，YYMM格式，持卡人卡面印的是MMYY的，请注意代码设置倒一下
+                //'expired'    => '1912', // format YYMM
             ),
             'payTimeout'   => date('YmdHis', strtotime('+15 minutes'))
         );
@@ -57,13 +57,7 @@ class WtzGatewayTest extends GatewayTestCase
          */
         $response = $this->gateway->frontOpen($params)->send();
         $form     = $response->getRedirectForm();
-
-        $fh = fopen('./pay.html', 'w');
-        fwrite($fh, $form);
-        fclose($fh);
-
-        exec('open ./pay.html -a "/Applications/Google Chrome.app" && rm ./pay.html');
-
-        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->isSuccessful());
+        $this->open($form);
     }
 }
