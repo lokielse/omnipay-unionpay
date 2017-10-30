@@ -21,7 +21,7 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
      */
     public function getData()
     {
-        $this->validate('orderId', 'txnTime', 'accNo', 'customerInfo', 'payTimeout');
+        $this->validate('orderId', 'txnTime', 'accNo', 'payTimeout');
 
         $data = array(
             'version'       => $this->getVersion(),  //版本号
