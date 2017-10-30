@@ -7,10 +7,10 @@ use Omnipay\UnionPay\Common\CertUtil;
 use Omnipay\UnionPay\Common\ResponseVerifyHelper;
 
 /**
- * Class WtzSmsConsumeRequest
+ * Class WtzDeleteTokenRequest
  * @package Omnipay\UnionPay\Message
  */
-class WtzSmsConsumeRequest extends WtzAbstractRequest
+class WtzDeleteTokenRequest extends WtzAbstractRequest
 {
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
@@ -20,15 +20,15 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
      */
     public function getData()
     {
-        $this->validate('orderId', 'txnTime', 'txnAmt', 'token');
+        $this->validate('orderId', 'txnTime', 'trId', 'token');
 
         $data = array(
             'version'       => $this->getVersion(),  //版本号
             'encoding'      => $this->getEncoding(),  //编码方式
             'certId'        => $this->getTheCertId(),    //证书ID
             'signMethod'    => $this->getSignMethod(),  //签名方法
-            'txnType'       => '78',        //交易类型
-            'txnSubType'    => '02',        //交易子类
+            'txnType'       => '74',        //交易类型
+            'txnSubType'    => '01',        //交易子类
             'bizType'       => '000902',    //业务类型
             'accessType'    => $this->getAccessType(),         //接入类型
             'channelType'   => $this->getChannelType(), //渠道类型 05:语音 07:互联网 08:移动 $this->getChannelType()
@@ -36,7 +36,6 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
             'merId'         => $this->getMerId(),     //商户代码
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
-            'txnAmt'        => $this->getTxnAmt(),    //交易金额，单位分，如上送短信验证码，请填写获取验证码时一样的txnAmt
             'tokenPayData'  => sprintf('{trId=%s&token=%s}', $this->getTrId(), $this->getToken())
         );
 
@@ -105,6 +104,6 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
 
         $data['verify_success'] = ResponseVerifyHelper::verify($data, $env, $rootCert, $middleCert);
 
-        return $this->response = new WtzSmsConsumeResponse($this, $data);
+        return $this->response = new WtzDeleteTokenResponse($this, $data);
     }
 }

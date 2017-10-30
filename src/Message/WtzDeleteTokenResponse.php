@@ -6,13 +6,13 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\UnionPay\Common\DecryptHelper;
 
 /**
- * Class WtzApplyTokenResponse
+ * Class WtzDeleteTokenResponse
  * @package Omnipay\UnionPay\Message
  */
-class WtzApplyTokenResponse extends AbstractResponse
+class WtzDeleteTokenResponse extends AbstractResponse
 {
     /**
-     * @var WtzApplyTokenRequest
+     * @var WtzUpdateTokenRequest
      */
     protected $request;
 
