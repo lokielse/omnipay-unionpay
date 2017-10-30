@@ -43,6 +43,39 @@ class WtzGatewayTest extends GatewayTestCase
     }
 
 
+    public function testFrontOpenConsume()
+    {
+        date_default_timezone_set('PRC');
+
+        $orderId = date('YmdHis');
+
+        $params = array(
+            'orderId'      => $orderId,
+            'txnTime'      => date('YmdHis'),
+            'txnAmt'       => '100',
+            'trId'         => '62000000001',
+            'accNo'        => '6226090000000048',
+            'payTimeout'   => date('YmdHis', strtotime('+15 minutes')),
+            'customerInfo' => array(
+                'phoneNo'    => '18100000000', //Phone Number
+                'certifTp'   => '01', //ID Card
+                'certifId'   => '510265790128303', //ID Card Number，15位身份证不校验尾号，18位会校验尾号，请务必在前端写好校验代码
+                'customerNm' => '张三', // Name
+                //'cvn2'       => '248', //cvn2
+                //'expired'    => '1912', // format YYMM
+            ),
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzFrontOpenConsumeResponse $response
+         */
+        $response = $this->gateway->frontOpenConsume($params)->send();
+        $this->assertTrue($response->isSuccessful());
+        $form = $response->getRedirectForm();
+        $this->open($form);
+    }
+
+
     public function testFrontOpen()
     {
         date_default_timezone_set('PRC');
@@ -132,6 +165,7 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzCompleteFrontOpenResponse $response
          */
         $response = $this->gateway->completeFrontOpen(array('request_params' => $data))->send();
+        //dd($response->getToken());
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('0048', $response->getAccNo());
         $this->assertEquals('20171030223623', $response->getOrderId());
@@ -236,6 +270,40 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzApplyTokenResponse $response
          */
         $response = $this->gateway->applyToken($params)->send();
+        $this->assertFalse($response->isSuccessful());
+    }
+
+
+    public function testUpdateToken()
+    {
+        $params = array(
+            'orderId' => '20171031035544',
+            'txnTime' => date('YmdHis'),
+            'trId'    => '62000000001',
+            'token'   => '6235240000020757577',
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzApplyTokenResponse $response
+         */
+        $response = $this->gateway->applyToken($params)->send();
+        $this->assertFalse($response->isSuccessful());
+    }
+
+
+    public function testDeleteToken()
+    {
+        $params = array(
+            'orderId' => '20171031035544',
+            'txnTime' => date('YmdHis'),
+            'trId'    => '62000000001',
+            'token'   => '6235240000020757577',
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzDeleteTokenResponse $response
+         */
+        $response = $this->gateway->deleteToken($params)->send();
         $this->assertFalse($response->isSuccessful());
     }
 }
