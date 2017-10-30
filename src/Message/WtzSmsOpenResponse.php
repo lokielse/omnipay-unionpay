@@ -8,5 +8,4 @@ namespace Omnipay\UnionPay\Message;
  */
 class WtzSmsOpenResponse extends WtzOpenResponse
 {
-
 }
