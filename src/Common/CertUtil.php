@@ -31,4 +31,18 @@ class CertUtil
 
         return $certData['serialNumber'];
     }
+
+
+    public static function getCompanyFromCert($cert)
+    {
+        $cn      = $cert['subject'];
+        $cn      = $cn['CN'];
+        $company = explode('@', $cn);
+
+        if (count($company) < 3) {
+            return null;
+        }
+
+        return $company[2];
+    }
 }

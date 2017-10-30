@@ -83,6 +83,22 @@ class WtzGatewayTest extends GatewayTestCase
         $response = $this->gateway->completeFrontOpen(array('request_params' => $data))->send();
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('0048', $response->getAccNo());
+        $this->assertEquals('20171030223623', $response->getOrderId());
         $this->assertArrayHasKey('token', $response->getToken());
+    }
+
+
+    public function testOpenQuery()
+    {
+        $params = array(
+            'orderId' => '20171030223623',
+            'txnTime' => date('YmdHis'),
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzOpenQueryResponse $response
+         */
+        $response = $this->gateway->openQuery($params)->send();
+        $this->assertTrue($response->isSuccessful());
     }
 }

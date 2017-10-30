@@ -3,6 +3,7 @@
 namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
+use Omnipay\UnionPay\Common\CertUtil;
 
 /**
  * Class WtzFrontOpenRequest
@@ -31,9 +32,9 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             'txnType'       => '79',        //交易类型
             'txnSubType'    => '00',        //交易子类
             'bizType'       => '000902',    //业务类型
-            'accessType'    => '0',         //接入类型
+            'accessType'    => $this->getAccessType(),         //接入类型
             'channelType'   => $this->getChannelType(), //渠道类型 05:语音 07:互联网 08:移动 $this->getChannelType()
-            'encryptCertId' => $this->getTheEncryptCertId(),
+            'encryptCertId' => CertUtil::readX509CertId($this->getEncryptKey()),
             'merId'         => $this->getMerId(),     //商户代码
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
@@ -168,17 +169,6 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             $data['encryptedInfo'] = $this->encrypt($payload);
         }
 
-
         return base64_encode("{" . urldecode(http_build_query($data)) . "}");
-    }
-
-
-    protected function getTheEncryptCertId()
-    {
-        $x509data = $this->getEncryptKey();
-
-        $certData = openssl_x509_parse($x509data);
-
-        return $certData['serialNumber'];
     }
 }

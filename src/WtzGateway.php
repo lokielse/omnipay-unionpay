@@ -100,4 +100,10 @@ class WtzGateway extends ExpressGateway
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\WtzCompleteFrontOpenRequest', $parameters);
     }
+
+
+    public function openQuery(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\UnionPay\Message\WtzOpenQueryRequest', $parameters);
+    }
 }

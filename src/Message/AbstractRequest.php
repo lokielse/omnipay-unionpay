@@ -5,6 +5,7 @@ namespace Omnipay\UnionPay\Message;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 use Omnipay\UnionPay\Common\Signer;
+use Omnipay\UnionPay\Common\StringUtil;
 
 /**
  * Class AbstractRequest
@@ -399,13 +400,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         ->setBody($body, 'application/x-www-form-urlencoded')/**/
         ->send()->getBody();
 
-        parse_str($response, $data);
-
-        if (! is_array($data)) {
-            $data = array();
-        }
-
-        return $data;
+        return StringUtil::parseFuckStr($response);
     }
 
 
@@ -427,7 +422,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $signer->setIgnores(array('sign'));
 
         $signType = strtoupper($signType);
-
 
         if ($signType == 'RSA' || $signType == 'RSA2') {
             $alg = $signType == 'RSA' ? OPENSSL_ALGO_SHA1 : OPENSSL_ALGO_SHA256;
