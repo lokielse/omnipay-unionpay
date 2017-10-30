@@ -3,10 +3,10 @@
 namespace Omnipay\UnionPay\Message;
 
 /**
- * Class WtzBackOpenResponse
+ * Class WtzSmsOpenResponse
  * @package Omnipay\UnionPay\Message
  */
-class WtzBackOpenResponse extends WtzOpenResponse
+class WtzSmsOpenResponse extends WtzOpenResponse
 {
 
 }
