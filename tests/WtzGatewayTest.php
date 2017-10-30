@@ -72,6 +72,36 @@ class WtzGatewayTest extends GatewayTestCase
         //$this->open($form);
     }
 
+    public function testBackOpen()
+    {
+        date_default_timezone_set('PRC');
+
+        $params = array(
+            'orderId'      => date('YmdHis'),
+            'txnTime'      => date('YmdHis'),
+            'trId'         => '62000000001',
+            'accNo'        => '6226090000000048',
+            'customerInfo' => array(
+                'phoneNo'    => '18100000000', //Phone Number
+                'certifTp'   => '01', //ID Card
+                'certifId'   => '510265790128303', //ID Card Number，15位身份证不校验尾号，18位会校验尾号，请务必在前端写好校验代码
+                'customerNm' => '张三', // Name
+                //'cvn2'       => '248', //cvn2
+                //'expired'    => '1912', // format YYMM
+            ),
+            'payTimeout'   => date('YmdHis', strtotime('+15 minutes'))
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzFrontOpenResponse $response
+         */
+        $response = $this->gateway->backOpen($params)->send();
+        dd($response->getData());
+        $this->assertTrue($response->isSuccessful());
+        //$form = $response->getRedirectForm();
+        //$this->open($form);
+    }
+
 
     public function testCompleteFrontOpen()
     {
