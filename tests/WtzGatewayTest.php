@@ -81,6 +81,7 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzCompleteFrontOpenResponse $response
          */
         $response = $this->gateway->completeFrontOpen(array('request_params' => $data))->send();
+        dd($response->getToken());
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('0048', $response->getAccNo());
         $this->assertEquals('20171030223623', $response->getOrderId());
@@ -99,6 +100,25 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzOpenQueryResponse $response
          */
         $response = $this->gateway->openQuery($params)->send();
+        $this->assertTrue($response->isSuccessful());
+    }
+
+
+    public function testSmsConsume()
+    {
+        $params = array(
+            'orderId' => '20171030223623',
+            'txnTime' => date('YmdHis'),
+            'txnAmt'  => 100,
+            'trId'    => '62000000001',
+            'token'   => '6235240000020757577',
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzSmsConsumeResponse $response
+         */
+        $response = $this->gateway->smsConsume($params)->send();
+        dd($response->getCustomerInfo());
         $this->assertTrue($response->isSuccessful());
     }
 }
