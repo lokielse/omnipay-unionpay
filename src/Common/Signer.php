@@ -28,7 +28,7 @@ class Signer
     private $params;
 
 
-    public function __construct(array $params = [])
+    public function __construct(array $params = array())
     {
         $this->params = $params;
     }
@@ -42,12 +42,18 @@ class Signer
     }
 
 
-    public function getContentToSign()
+    public function getContentToSign($alg = OPENSSL_ALGO_SHA1)
     {
         $params = $this->getParamsToSign();
 
+        $payload = urldecode(http_build_query($params));
+
         if ($this->encodePolicy == self::ENCODE_POLICY_QUERY) {
-            return sha1(urldecode(http_build_query($params)), false);
+            if ($alg == OPENSSL_ALGO_SHA1) {
+                return hash('sha1', $payload);
+            } else {
+                return hash('sha256', $payload);
+            }
         } else {
             return null;
         }
@@ -123,7 +129,7 @@ class Signer
 
     public function signWithRSA($privateKey, $alg = OPENSSL_ALGO_SHA1)
     {
-        $content = $this->getContentToSign();
+        $content = $this->getContentToSign($alg);
 
         $sign = $this->signContentWithRSA($content, $privateKey, $alg);
 
@@ -131,11 +137,11 @@ class Signer
     }
 
 
-    public function signWithCert($cert, $password)
+    public function signWithCert($cert, $password, $alg)
     {
         $privateKey = $this->readPrivateKey($cert, $password);
 
-        return $this->signWithRSA($privateKey);
+        return $this->signWithRSA($privateKey, $alg);
     }
 
 
@@ -213,7 +219,7 @@ class Signer
      */
     public function convertKey($key, $type)
     {
-        $lines = [];
+        $lines = array();
 
         if ($type == self::KEY_TYPE_PUBLIC) {
             $lines[] = '-----BEGIN PUBLIC KEY-----';
@@ -335,7 +341,7 @@ class Signer
         openssl_x509_read($x509data);
         $certData = openssl_x509_parse($x509data);
 
-        return $certData ['serialNumber'];
+        return $certData['serialNumber'];
     }
 
 
@@ -344,6 +350,6 @@ class Signer
         $data = file_get_contents($file);
         openssl_pkcs12_read($data, $certs, $password);
 
-        return $certs ['cert'];
+        return $certs['cert'];
     }
 }
