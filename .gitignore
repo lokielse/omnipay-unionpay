@@ -4,3 +4,7 @@
 composer.lock
 composer.phar
 phpunit.xml
+/tests/config.php
+/tests/Assets/production
+/tests/Assets/sandbox
+.php_cs.cache

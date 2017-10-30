@@ -22,7 +22,7 @@ class LegacyQuickPayGatewayTest extends GatewayTestCase
     {
         parent::setUp();
         $this->gateway = Omnipay::create('UnionPay_LegacyQuickPay');
-        $this->gateway->setMerId('123456789');
+        $this->gateway->setMerId(UNIONPAY_MER_ID);
         $this->gateway->setSecretKey('xxxxxxx');
         $this->gateway->setReturnUrl('http://example.com/return');
         $this->gateway->setNotifyUrl('http://example.com/notify');
@@ -52,7 +52,7 @@ class LegacyQuickPayGatewayTest extends GatewayTestCase
     {
         $options = array(
             'request_params' => array(
-                'certId'    => '3474813271258769001041842579301293446',
+                'certId'    => UNIONPAY_CERT_ID,
                 'signature' => 'xxxxxxx'
             ),
         );
