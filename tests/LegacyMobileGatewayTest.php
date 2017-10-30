@@ -3,7 +3,6 @@
 namespace Omnipay\UnionPay\Tests;
 
 use Omnipay\Omnipay;
-use Omnipay\Tests\GatewayTestCase;
 use Omnipay\UnionPay\LegacyMobileGateway;
 use Omnipay\UnionPay\Message\LegacyMobilePurchaseResponse;
 
