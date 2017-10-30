@@ -11,7 +11,10 @@
     "pay",
     "payment",
     "purchase",
-    "银联"
+    "银联",
+    "sdk",
+    "无跳转支付",
+    "laravel"
   ],
   "homepage": "https://github.com/lokielse/omnipay-unionpay",
   "license": "MIT",
