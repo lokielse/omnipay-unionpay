@@ -3,6 +3,7 @@
 namespace Omnipay\UnionPay\Tests;
 
 use Omnipay\Omnipay;
+use Omnipay\Tests\GatewayTestCase;
 use Omnipay\UnionPay\WtzGateway;
 
 class WtzGatewayTest extends GatewayTestCase
@@ -31,6 +32,17 @@ class WtzGatewayTest extends GatewayTestCase
     }
 
 
+    private function open($content)
+    {
+        $file = sprintf('./%s.html', md5(uniqid()));
+        $fh   = fopen($file, 'w');
+        fwrite($fh, $content);
+        fclose($fh);
+
+        exec(sprintf('open %s -a "/Applications/Google Chrome.app" && rm %s', $file, $file));
+    }
+
+
     public function testFrontOpen()
     {
         date_default_timezone_set('PRC');
@@ -55,8 +67,22 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzFrontOpenResponse $response
          */
         $response = $this->gateway->frontOpen($params)->send();
-        $form     = $response->getRedirectForm();
         $this->assertTrue($response->isSuccessful());
-        $this->open($form);
+        //$form = $response->getRedirectForm();
+        //$this->open($form);
+    }
+
+
+    public function testCompleteFrontOpen()
+    {
+        parse_str(file_get_contents(UNIONPAY_DATA_DIR . '/WtzCompleteFrontOpen.txt'), $data);
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzCompleteFrontOpenResponse $response
+         */
+        $response = $this->gateway->completeFrontOpen(array('request_params' => $data))->send();
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('0048', $response->getAccNo());
+        $this->assertArrayHasKey('token', $response->getToken());
     }
 }

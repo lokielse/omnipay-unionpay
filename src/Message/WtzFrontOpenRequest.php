@@ -32,7 +32,7 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             'txnSubType'    => '00',        //交易子类
             'bizType'       => '000902',    //业务类型
             'accessType'    => '0',         //接入类型
-            'channelType'   => '07',        //渠道类型 05:语音 07:互联网 08:移动 $this->getChannelType()
+            'channelType'   => $this->getChannelType(), //渠道类型 05:语音 07:互联网 08:移动 $this->getChannelType()
             'encryptCertId' => $this->getTheEncryptCertId(),
             'merId'         => $this->getMerId(),     //商户代码
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
@@ -44,12 +44,9 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             'backUrl'       => $this->getNotifyUrl(), //后台通知地址
             'payTimeout'    => $this->getPayTimeout(), //订单超时时间, 超过此时间后，除网银交易外，其他交易银联系统会拒绝受理，提示超时
         );
-
         $data = $this->filter($data);
 
         $data['signature'] = $this->sign($data, 'RSA2');
-
-        var_dump(json_encode($data));
 
         return $data;
     }
@@ -157,7 +154,7 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
         }
 
         $toEncrypt = array();
-        $protect   = array('phoneNo', 'cvn2', 'expired');
+        $protect   = array('phoneNo', 'cvn2', 'expired', 'certifTp', 'certifId');
 
         foreach ($data as $key => $value) {
             if (in_array($key, $protect)) {
@@ -170,6 +167,7 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             $payload               = urldecode(http_build_query($toEncrypt));
             $data['encryptedInfo'] = $this->encrypt($payload);
         }
+
 
         return base64_encode("{" . urldecode(http_build_query($data)) . "}");
     }
