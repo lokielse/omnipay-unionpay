@@ -4,6 +4,7 @@ namespace Omnipay\UnionPay\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\UnionPay\Common\CertUtil;
+use Omnipay\UnionPay\Common\StringUtil;
 
 /**
  * Class WtzCompleteFrontOpenResponse
@@ -84,15 +85,6 @@ class WtzCompleteFrontOpenResponse extends AbstractResponse
     {
         $query = substr($payload, 1, strlen($payload) - 2);
 
-        $pairs = explode('&', $query);
-
-        $data = array();
-
-        foreach ($pairs as $v) {
-            list($key, $value) = explode('=', $v);
-            $data[$key] = $value;
-        }
-
-        return $data;
+        return StringUtil::parseFuckStr($query);
     }
 }
