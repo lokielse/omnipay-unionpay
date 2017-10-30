@@ -53,9 +53,8 @@ $ openssl pkcs12 -in cert.pfx  -nocerts -nodes | openssl rsa -out private_key.pe
 2. Public key is verify_sign_acp.cer
 
 3. Get Cert ID
-$ openssl pkcs12 -in cert.pfx -out cert.pem -nokeys
-$ openssl x509 -in cert.pem -serial -noout //result hex eg: XXXXXXXXXX
-$ echo $((16#XXXXXXXXXX)) //Convert hex to decimal
+$ openssl pkcs12 -in cert.pfx -clcerts -nokeys | openssl x509 -serial -noout // result hex eg: XXXXXXXXXX
+$ visit https://lokielse.github.io/hex2dec/index.html //Convert hex to decimal online
 ```
 
 ### Consume
