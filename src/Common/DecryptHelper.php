@@ -9,7 +9,6 @@ namespace Omnipay\UnionPay\Common;
  */
 class DecryptHelper
 {
-
     public static function decryptCustomerInfo($payload, $cert, $pass)
     {
         $customer = self::parse(base64_decode($payload));
