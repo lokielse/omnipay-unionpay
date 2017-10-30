@@ -135,7 +135,8 @@ class Signer
     {
         $content = $this->getContentToSign($alg);
 
-        return $this->signContentWithRSA($content, $privateKey, $alg);;
+        return $this->signContentWithRSA($content, $privateKey, $alg);
+        ;
     }
 
 
