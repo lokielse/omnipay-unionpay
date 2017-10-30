@@ -428,6 +428,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
         $signType = strtoupper($signType);
 
+
         if ($signType == 'RSA' || $signType == 'RSA2') {
             $alg = $signType == 'RSA' ? OPENSSL_ALGO_SHA1 : OPENSSL_ALGO_SHA256;
 
