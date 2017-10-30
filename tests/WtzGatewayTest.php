@@ -167,4 +167,22 @@ class WtzGatewayTest extends GatewayTestCase
         $response = $this->gateway->smsConsume($params)->send();
         $this->assertTrue($response->isSuccessful());
     }
+
+
+    public function testConsume()
+    {
+        $params = array(
+            'orderId' => '20171030223623',
+            'txnTime' => date('YmdHis'),
+            'txnAmt'  => 100,
+            'trId'    => '62000000001',
+            'token'   => '6235240000020757577',
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzConsumeResponse $response
+         */
+        $response = $this->gateway->consume($params)->send();
+        $this->assertTrue($response->isSuccessful());
+    }
 }

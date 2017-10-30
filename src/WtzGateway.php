@@ -124,4 +124,10 @@ class WtzGateway extends ExpressGateway
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\WtzSmsConsumeRequest', $parameters);
     }
+
+
+    public function consume(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\UnionPay\Message\WtzConsumeRequest', $parameters);
+    }
 }
