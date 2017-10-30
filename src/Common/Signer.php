@@ -28,7 +28,7 @@ class Signer
     private $params;
 
 
-    public function __construct(array $params = [])
+    public function __construct(array $params = array())
     {
         $this->params = $params;
     }
@@ -42,12 +42,22 @@ class Signer
     }
 
 
-    public function getContentToSign()
+    public function getPayload()
     {
         $params = $this->getParamsToSign();
 
+        return urldecode(http_build_query($params));
+    }
+
+
+    public function getContentToSign($alg = OPENSSL_ALGO_SHA1)
+    {
         if ($this->encodePolicy == self::ENCODE_POLICY_QUERY) {
-            return sha1(urldecode(http_build_query($params)), false);
+            if ($alg == OPENSSL_ALGO_SHA1) {
+                return hash('sha1', $this->getPayload());
+            } else {
+                return hash('sha256', $this->getPayload());
+            }
         } else {
             return null;
         }
@@ -123,19 +133,18 @@ class Signer
 
     public function signWithRSA($privateKey, $alg = OPENSSL_ALGO_SHA1)
     {
-        $content = $this->getContentToSign();
+        $content = $this->getContentToSign($alg);
 
-        $sign = $this->signContentWithRSA($content, $privateKey, $alg);
-
-        return $sign;
+        return $this->signContentWithRSA($content, $privateKey, $alg);
+        ;
     }
 
 
-    public function signWithCert($cert, $password)
+    public function signWithCert($cert, $password, $alg)
     {
         $privateKey = $this->readPrivateKey($cert, $password);
 
-        return $this->signWithRSA($privateKey);
+        return $this->signWithRSA($privateKey, $alg);
     }
 
 
@@ -213,7 +222,7 @@ class Signer
      */
     public function convertKey($key, $type)
     {
-        $lines = [];
+        $lines = array();
 
         if ($type == self::KEY_TYPE_PUBLIC) {
             $lines[] = '-----BEGIN PUBLIC KEY-----';
@@ -296,10 +305,7 @@ class Signer
 
     protected static function readPrivateKey($cert, $password)
     {
-        $data = file_get_contents($cert);
-        openssl_pkcs12_read($data, $certs, $password);
-
-        return $certs['pkey'];
+        return CertUtil::readPrivateKeyFromCert($cert, $password);
     }
 
 
@@ -326,16 +332,7 @@ class Signer
 
     public static function readCertId($file)
     {
-        if (is_file($file)) {
-            $x509data = file_get_contents($file);
-        } else {
-            $x509data = $file;
-        }
-
-        openssl_x509_read($x509data);
-        $certData = openssl_x509_parse($x509data);
-
-        return $certData ['serialNumber'];
+        return CertUtil::readX509CertId($file);
     }
 
 
@@ -344,6 +341,6 @@ class Signer
         $data = file_get_contents($file);
         openssl_pkcs12_read($data, $certs, $password);
 
-        return $certs ['cert'];
+        return $certs['cert'];
     }
 }

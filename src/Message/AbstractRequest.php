@@ -5,6 +5,7 @@ namespace Omnipay\UnionPay\Message;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 use Omnipay\UnionPay\Common\Signer;
+use Omnipay\UnionPay\Common\StringUtil;
 
 /**
  * Class AbstractRequest
@@ -315,47 +316,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     public function getCertId()
     {
-        return $this->getParameter('cert_id');
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getPrivateKey()
-    {
-        return $this->getParameter('private_key');
-    }
-
-
-    /**
-     * @param $value
-     *
-     * @return $this
-     */
-    public function setPrivateKey($value)
-    {
-        return $this->setParameter('private_key', $value);
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getPublicKey()
-    {
-        return $this->getParameter('public_key');
-    }
-
-
-    /**
-     * @param $value
-     *
-     * @return $this
-     */
-    public function setPublicKey($value)
-    {
-        return $this->setParameter('public_key', $value);
+        return $this->getParameter('certId');
     }
 
 
@@ -366,7 +327,67 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     public function setCertId($value)
     {
-        return $this->setParameter('cert_id', $value);
+        return $this->setParameter('certId', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPrivateKey()
+    {
+        return $this->getParameter('privateKey');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setPrivateKey($value)
+    {
+        return $this->setParameter('privateKey', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPublicKey()
+    {
+        return $this->getParameter('publicKey');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setPublicKey($value)
+    {
+        return $this->setParameter('publicKey', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getEncryptCertId()
+    {
+        return $this->getParameter('encryptCertId');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setEncryptCertId($value)
+    {
+        return $this->setParameter('encryptCertId', $value);
     }
 
 
@@ -379,13 +400,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         ->setBody($body, 'application/x-www-form-urlencoded')/**/
         ->send()->getBody();
 
-        parse_str($response, $data);
-
-        if (! is_array($data)) {
-            $data = array();
-        }
-
-        return $data;
+        return StringUtil::parseFuckStr($response);
     }
 
 
@@ -408,11 +423,13 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
         $signType = strtoupper($signType);
 
-        if ($signType == 'RSA') {
+        if ($signType == 'RSA' || $signType == 'RSA2') {
+            $alg = $signType == 'RSA' ? OPENSSL_ALGO_SHA1 : OPENSSL_ALGO_SHA256;
+
             if ($this->getPrivateKey()) {
-                $sign = $signer->signWithRSA($this->getPrivateKey());
+                $sign = $signer->signWithRSA($this->getPrivateKey(), $alg);
             } else {
-                $sign = $signer->signWithCert($this->getCertPath(), $this->getCertPassword());
+                $sign = $signer->signWithCert($this->getCertPath(), $this->getCertPassword(), $alg);
             }
         } else {
             throw new InvalidRequestException('The signType is invalid');

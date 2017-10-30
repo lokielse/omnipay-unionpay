@@ -9,9 +9,8 @@ use Omnipay\UnionPay\Message\ExpressPurchaseResponse;
 
 class ExpressGatewayTest extends GatewayTestCase
 {
-
     /**
-     * @var ExpressGateway $gateway
+     * @var ExpressGateway
      */
     protected $gateway;
 
@@ -22,12 +21,13 @@ class ExpressGatewayTest extends GatewayTestCase
     {
         parent::setUp();
         $this->gateway = Omnipay::create('UnionPay_Express');
-        $this->gateway->setMerId('123456789');
-        $this->gateway->setCertDir(__DIR__ . '/Assets/'); // .pfx file
-        $this->gateway->setCertPath(__DIR__ . '/Assets/PM_700000000000001_acp.pfx'); // .pfx file
-        $this->gateway->setCertPassword('000000');
+        $this->gateway->setMerId(UNIONPAY_MER_ID);
+        $this->gateway->setCertDir(UNIONPAY_CERT_DIR); // .pfx file
+        $this->gateway->setCertPath(UNIONPAY_CERT_PATH); // .pfx file
+        $this->gateway->setCertPassword(UNIONPAY_CERT_PASSWORD);
         $this->gateway->setReturnUrl('http://example.com/return');
         $this->gateway->setNotifyUrl('http://example.com/notify');
+        $this->gateway->setEnvironment('sandbox');
     }
 
 
@@ -41,7 +41,7 @@ class ExpressGatewayTest extends GatewayTestCase
         );
 
         /**
-         * @var ExpressPurchaseResponse $response
+         * @var ExpressPurchaseResponse
          */
         $response = $this->gateway->purchase($order)->send();
         $this->assertTrue($response->isSuccessful());
@@ -54,13 +54,13 @@ class ExpressGatewayTest extends GatewayTestCase
     {
         $options = array(
             'request_params' => array(
-                'certId'    => '3474813271258769001041842579301293446',
-                'signature' => 'xxxxxxx'
+                'certId'    => UNIONPAY_CERT_ID,
+                'signature' => 'xxxxxxx',
             ),
         );
 
         /**
-         * @var ExpressPurchaseResponse $response
+         * @var ExpressPurchaseResponse
          */
         $response = $this->gateway->completePurchase($options)->send();
         $this->assertFalse($response->isSuccessful());
@@ -70,14 +70,14 @@ class ExpressGatewayTest extends GatewayTestCase
     public function testQuery()
     {
         $options = array(
-            'certId'  => '3474813271258769001041842579301293446',
+            'certId'  => UNIONPAY_CERT_ID,
             'orderId' => 'xxxxxxx',
             'txnTime' => date('YmdHis'),
             'txnAmt'  => '100',
         );
 
         /**
-         * @var ExpressPurchaseResponse $response
+         * @var ExpressPurchaseResponse
          */
         $response = $this->gateway->query($options)->send();
         $this->assertFalse($response->isSuccessful());
@@ -87,7 +87,7 @@ class ExpressGatewayTest extends GatewayTestCase
     public function testConsumeUndo()
     {
         $options = array(
-            'certId'  => '3474813271258769001041842579301293446',
+            'certId'  => UNIONPAY_CERT_ID,
             'orderId' => 'xxxxxxx',
             'txnAmt'  => '100',
             'queryId' => 'XXXXX',
@@ -95,7 +95,7 @@ class ExpressGatewayTest extends GatewayTestCase
         );
 
         /**
-         * @var ExpressPurchaseResponse $response
+         * @var ExpressPurchaseResponse
          */
         $response = $this->gateway->consumeUndo($options)->send();
         $this->assertFalse($response->isSuccessful());
@@ -105,7 +105,7 @@ class ExpressGatewayTest extends GatewayTestCase
     public function testRefund()
     {
         $options = array(
-            'certId'  => '3474813271258769001041842579301293446',
+            'certId'  => UNIONPAY_CERT_ID,
             'orderId' => '222222',
             'queryId' => '333333',
             'txnTime' => date('YmdHis'),
@@ -113,7 +113,7 @@ class ExpressGatewayTest extends GatewayTestCase
         );
 
         /**
-         * @var ExpressPurchaseResponse $response
+         * @var ExpressPurchaseResponse
          */
         $response = $this->gateway->refund($options)->send();
         $this->assertFalse($response->isSuccessful());
@@ -123,15 +123,12 @@ class ExpressGatewayTest extends GatewayTestCase
     public function testFileTransfer()
     {
         $options = array(
-            'certId'     => '3474813271258769001041842579301293446',
+            'certId'     => UNIONPAY_CERT_ID,
             'txnTime'    => date('YmdHis'),
             'fileType'   => '00',
             'settleDate' => '0815',
         );
 
-        /**
-         * @var ExpressPurchaseResponse $response
-         */
         $response = $this->gateway->fileTransfer($options)->send();
         $this->assertFalse($response->isSuccessful());
     }
