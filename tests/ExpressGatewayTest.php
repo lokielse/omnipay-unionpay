@@ -3,7 +3,6 @@
 namespace Omnipay\UnionPay\Tests;
 
 use Omnipay\Omnipay;
-use Omnipay\Tests\GatewayTestCase;
 use Omnipay\UnionPay\ExpressGateway;
 use Omnipay\UnionPay\Message\ExpressPurchaseResponse;
 

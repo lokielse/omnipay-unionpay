@@ -3,7 +3,6 @@
 namespace Omnipay\UnionPay\Tests;
 
 use Omnipay\Omnipay;
-use Omnipay\Tests\GatewayTestCase;
 use Omnipay\UnionPay\WtzGateway;
 
 class WtzGatewayTest extends GatewayTestCase
