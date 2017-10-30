@@ -18,23 +18,15 @@ class PPExpressGatewayTest extends GatewayTestCase
 
     protected $options;
 
-    protected $merId = '123456789';
-
-    protected $certId = '6860234080247374318';
-
-    protected $privateKey = '/Assets/private_key.pem';
-
-    protected $publicKey = '/Assets/verify_sign_acp.cer';
-
 
     public function setUp()
     {
         parent::setUp();
         $this->gateway = Omnipay::create('UnionPay_Express');
-        $this->gateway->setMerId($this->merId);
-        $this->gateway->setCertId($this->certId);
-        $this->gateway->setPrivateKey(file_get_contents(__DIR__ . $this->privateKey));
-        $this->gateway->setPublicKey(file_get_contents(__DIR__ . $this->publicKey));
+        $this->gateway->setMerId(UNIONPAY_MER_ID);
+        $this->gateway->setCertId(UNIONPAY_CERT_ID);
+        $this->gateway->setPrivateKey(UNIONPAY_PRIVATE_KEY);
+        $this->gateway->setPublicKey(UNIONPAY_PUBLIC_KEY);
         $this->gateway->setReturnUrl('http://example.com/return');
         $this->gateway->setNotifyUrl('http://example.com/notify');
     }
@@ -81,7 +73,7 @@ class PPExpressGatewayTest extends GatewayTestCase
     {
         $options = array(
             'request_params' => array(
-                'certId'    => '3474813271258769001041842579301293446',
+                'certId'    => UNIONPAY_CERT_ID,
                 'signature' => 'xxxxxxx'
             ),
         );
@@ -97,7 +89,7 @@ class PPExpressGatewayTest extends GatewayTestCase
     public function testQuery()
     {
         $options = array(
-            'certId'  => '3474813271258769001041842579301293446',
+            'certId'  => UNIONPAY_CERT_ID,
             'orderId' => 'xxxxxxx',
             'txnTime' => date('YmdHis'),
             'txnAmt'  => '100',
@@ -114,7 +106,7 @@ class PPExpressGatewayTest extends GatewayTestCase
     public function testConsumeUndo()
     {
         $options = array(
-            'certId'  => '3474813271258769001041842579301293446',
+            'certId'  => UNIONPAY_CERT_ID,
             'orderId' => 'xxxxxxx',
             'txnAmt'  => '100',
             'queryId' => 'XXXXX',
@@ -132,7 +124,7 @@ class PPExpressGatewayTest extends GatewayTestCase
     public function testRefund()
     {
         $options = array(
-            'certId'  => '3474813271258769001041842579301293446',
+            'certId'  => UNIONPAY_CERT_ID,
             'orderId' => '222222',
             'queryId' => '333333',
             'txnTime' => date('YmdHis'),
@@ -150,7 +142,7 @@ class PPExpressGatewayTest extends GatewayTestCase
     public function testFileTransfer()
     {
         $options = array(
-            'certId'     => '3474813271258769001041842579301293446',
+            'certId'     => UNIONPAY_CERT_ID,
             'txnTime'    => date('YmdHis'),
             'fileType'   => '00',
             'settleDate' => '0815',
