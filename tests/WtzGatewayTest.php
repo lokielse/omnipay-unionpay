@@ -48,19 +48,11 @@ class WtzGatewayTest extends GatewayTestCase
         date_default_timezone_set('PRC');
 
         $params = array(
-            'orderId'      => date('YmdHis'),
-            'txnTime'      => date('YmdHis'),
-            'trId'         => '62000000001',
-            'accNo'        => '6226090000000048',
-            'customerInfo' => array(
-                'phoneNo'    => '18100000000', //Phone Number
-                'certifTp'   => '01', //ID Card
-                'certifId'   => '510265790128303', //ID Card Number，15位身份证不校验尾号，18位会校验尾号，请务必在前端写好校验代码
-                'customerNm' => '张三', // Name
-                //'cvn2'       => '248', //cvn2
-                //'expired'    => '1912', // format YYMM
-            ),
-            'payTimeout'   => date('YmdHis', strtotime('+15 minutes'))
+            'orderId'    => date('YmdHis'),
+            'txnTime'    => date('YmdHis'),
+            'trId'       => '62000000001',
+            'accNo'      => '6226090000000048',
+            'payTimeout' => date('YmdHis', strtotime('+15 minutes'))
         );
 
         /**
@@ -71,6 +63,7 @@ class WtzGatewayTest extends GatewayTestCase
         //$form = $response->getRedirectForm();
         //$this->open($form);
     }
+
 
     public function testBackOpen()
     {
@@ -96,10 +89,35 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzFrontOpenResponse $response
          */
         $response = $this->gateway->backOpen($params)->send();
-        dd($response->getData());
+        $this->assertFalse($response->isSuccessful());
+    }
+
+
+    public function testSmsOpen()
+    {
+        date_default_timezone_set('PRC');
+
+        $params = array(
+            'orderId'      => date('YmdHis'),
+            'txnTime'      => date('YmdHis'),
+            'trId'         => '62000000001',
+            'accNo'        => '6226090000000048',
+            'customerInfo' => array(
+                'phoneNo'    => '18100000000', //Phone Number
+                'certifTp'   => '01', //ID Card
+                'certifId'   => '510265790128303', //ID Card Number，15位身份证不校验尾号，18位会校验尾号，请务必在前端写好校验代码
+                'customerNm' => '张三', // Name
+                //'cvn2'       => '248', //cvn2
+                //'expired'    => '1912', // format YYMM
+            ),
+            'payTimeout'   => date('YmdHis', strtotime('+15 minutes'))
+        );
+
+        /**
+         * @var \Omnipay\UnionPay\Message\WtzSmsOpenResponse $response
+         */
+        $response = $this->gateway->smsOpen($params)->send();
         $this->assertTrue($response->isSuccessful());
-        //$form = $response->getRedirectForm();
-        //$this->open($form);
     }
 
 
@@ -111,7 +129,6 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzCompleteFrontOpenResponse $response
          */
         $response = $this->gateway->completeFrontOpen(array('request_params' => $data))->send();
-        dd($response->getToken());
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('0048', $response->getAccNo());
         $this->assertEquals('20171030223623', $response->getOrderId());
@@ -148,7 +165,6 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzSmsConsumeResponse $response
          */
         $response = $this->gateway->smsConsume($params)->send();
-        dd($response->getCustomerInfo());
         $this->assertTrue($response->isSuccessful());
     }
 }
