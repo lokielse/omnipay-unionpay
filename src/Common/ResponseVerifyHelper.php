@@ -11,6 +11,10 @@ class ResponseVerifyHelper
 {
     public static function verify($data, $env, $rootCert, $middleCert)
     {
+        if (! isset($data['signPubKeyCert'])) {
+            return false;
+        }
+
         $publicKey = $data['signPubKeyCert'];
         $certInfo  = openssl_x509_parse($publicKey);
 
