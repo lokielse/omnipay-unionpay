@@ -31,12 +31,12 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
             'txnSubType'    => '02',        //交易子类
             'bizType'       => '000902',    //业务类型
             'accessType'    => $this->getAccessType(),         //接入类型
-            'channelType'   => $this->getChannelType(), //渠道类型 05:语音 07:互联网 08:移动 $this->getChannelType()
+            'channelType'   => $this->getChannelType(), //05:语音 07:互联网 08:移动
             'encryptCertId' => CertUtil::readX509CertId($this->getEncryptKey()),
             'merId'         => $this->getMerId(),     //商户代码
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
-            'txnAmt'        => $this->getTxnAmt(),    //交易金额，单位分，如上送短信验证码，请填写获取验证码时一样的txnAmt
+            'txnAmt'        => $this->getTxnAmt(),    //交易金额，单位分
             'tokenPayData'  => sprintf('{trId=%s&token=%s}', $this->getTrId(), $this->getToken())
         );
 

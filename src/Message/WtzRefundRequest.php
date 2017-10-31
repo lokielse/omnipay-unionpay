@@ -31,13 +31,13 @@ class WtzRefundRequest extends WtzAbstractRequest
             'txnSubType'    => '00',        //交易子类
             'bizType'       => '000301',    //业务类型
             'accessType'    => $this->getAccessType(),         //接入类型
-            'channelType'   => $this->getChannelType(), //渠道类型 05:语音 07:互联网 08:移动 $this->getChannelType()
+            'channelType'   => $this->getChannelType(), //05:语音 07:互联网 08:移动
             'encryptCertId' => CertUtil::readX509CertId($this->getEncryptKey()),
             'merId'         => $this->getMerId(),     //商户代码
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
-            'origQryId'     => $this->getOrigQryId(),     //原消费的queryId，可以从查询接口或者通知接口中获取
+            'origQryId'     => $this->getOrigQryId(),     //原消费的queryId，从查询接口获取
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
-            'txnAmt'        => $this->getTxnAmt(),    //交易金额，单位分，如上送短信验证码，请填写获取验证码时一样的txnAmt
+            'txnAmt'        => $this->getTxnAmt(),    //交易金额，单位分
         );
 
         $data = $this->filter($data);

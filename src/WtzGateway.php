@@ -130,7 +130,8 @@ class WtzGateway extends ExpressGateway
 
 
     /**
-     * 前台类交易成功才会发送后台通知。后台类交易（有后台通知的接口）交易结束之后成功失败都会发通知
+     * 前台类交易成功才会发送后台通知
+     * 后台类交易（有后台通知的接口）交易结束之后成功失败都会发通知
      *
      * @param array $parameters
      *

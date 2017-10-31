@@ -54,7 +54,7 @@ class ExpressGatewayTest extends GatewayTestCase
     {
         $options = array(
             'request_params' => array(
-                'certId'    => UNIONPAY_CERT_ID,
+                'certId'    => '68759585097',
                 'signature' => 'xxxxxxx',
             ),
         );
