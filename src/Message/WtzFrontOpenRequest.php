@@ -30,7 +30,7 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             'txnSubType'    => '00',        //交易子类
             'bizType'       => '000902',    //业务类型
             'accessType'    => $this->getAccessType(),         //接入类型
-            'channelType'   => $this->getChannelType(), //渠道类型 05:语音 07:互联网 08:移动 $this->getChannelType()
+            'channelType'   => $this->getChannelType(), //05:语音 07:互联网 08:移动
             'encryptCertId' => CertUtil::readX509CertId($this->getEncryptKey()),
             'merId'         => $this->getMerId(),     //商户代码
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
@@ -40,7 +40,7 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             'customerInfo'  => $this->getEncryptCustomerInfo(), //标记请求者 trId,
             'frontUrl'      => $this->getReturnUrl(), //前台通知地址
             'backUrl'       => $this->getNotifyUrl(), //后台通知地址
-            'payTimeout'    => $this->getPayTimeout(), //订单超时时间, 超过此时间后，除网银交易外，其他交易银联系统会拒绝受理，提示超时
+            'payTimeout'    => $this->getPayTimeout(), //订单超时时间
         );
         $data = $this->filter($data);
 

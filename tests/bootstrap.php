@@ -12,7 +12,7 @@ define('UNIONPAY_ASSET_DIR', realpath(__DIR__ . '/Assets'));
 
 $configFile = realpath(__DIR__ . '/config.php');
 
-if (file_exists($configFile)) {
+if (file_exists($configFile) && false) {
     include_once $configFile;
 } else {
     include_once realpath(__DIR__ . '/config.dist.php');

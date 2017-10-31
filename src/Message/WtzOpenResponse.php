@@ -19,7 +19,7 @@ class WtzOpenResponse extends AbstractResponse
 
     public function isSuccessful()
     {
-        return $this->data['respCode'] == '00' && $this->data['verify_success'];
+        return isset($this->data['respCode']) && $this->data['respCode'] == '00' && $this->data['verify_success'];
     }
 
 
