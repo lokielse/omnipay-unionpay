@@ -10,7 +10,7 @@ before_script:
   - composer install -n --dev --prefer-source
 
 script:
-  - vendor/bin/phpcs --standard=PSR2 src tests
+  - vendor/bin/phpcs --standard=PSR2 --ignore=tests/bootstrap.php src tests
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
 
 after_success:
