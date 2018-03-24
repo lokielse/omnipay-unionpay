@@ -127,10 +127,22 @@ var_dump($response->getData());
 
 ### Refund
 ```php
-$response = $gateway->refund([
+// 注意：
+1. 银联退款时，必须加上 queryId, 
+2. 作为商户生成的订单号orderId与退款时的订单号是不一样的。也就意味着退款时的订单号必须重新生成。
+3. txnAmt 这个参数银联是精确到分的。直接返回元为单位的值，将会出现报错信息。
+// get the queryId first
+$response = $gateway->query([
     'orderId' => '20150815121214', //Your site trade no, not union tn.
     'txnTime' => '20150815121214', //Order trade time
-    'txnAmt'  => '200', //Order total fee
+    'txnAmt'  => 200 * 100, //Order total fee; notice that: you should multiply the txnAmt by 100 with the Unionpay gateway. Such as 200 * 100;
+])->send();
+$queryId = ($response->getData())['queryId'];
+$response = $gateway->refund([
+    'orderId' => '20150815121214', //Your site trade no, not union tn. notice: this orderId must not be the same with the order's created orderId.
+    'txnTime' => date('YmdHis'), //Order trade time
+    'txnAmt'  => 200 * 100, //Order total fee; notice that: you should multiply the txnAmt by 100 with the Unionpay gateway. Such as 200 * 100;
+    'queryId' => $queryId
 ])->send();
 
 var_dump($response->isSuccessful());
