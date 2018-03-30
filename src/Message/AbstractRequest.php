@@ -391,16 +391,28 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
 
+    /**
+     * @param $method
+     * @param $data
+     *
+     * @return array
+     * @throws \Psr\Http\Client\Exception\NetworkException
+     * @throws \Psr\Http\Client\Exception\RequestException
+     */
     protected function httpRequest($method, $data)
     {
         $url  = $this->getEndpoint($method);
         $body = http_build_query($data);
 
-        $response = $this->httpClient->post($url)/**/
-        ->setBody($body, 'application/x-www-form-urlencoded')/**/
-        ->send()->getBody();
+        $headers = [
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ];
 
-        return StringUtil::parseFuckStr($response);
+        $response = $this->httpClient->request('POST', $url, $headers, $body)->getBody();
+
+        $payload  = StringUtil::parseFuckStr($response);
+
+        return $payload;
     }
 
 
