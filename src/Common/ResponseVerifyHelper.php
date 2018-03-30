@@ -35,8 +35,8 @@ class ResponseVerifyHelper
             return false;
         }
 
-        $from = date_create('@' . $certInfo ['validFrom_time_t']);
-        $to   = date_create('@' . $certInfo ['validTo_time_t']);
+        $from = date_create('@' . $certInfo['validFrom_time_t']);
+        $to   = date_create('@' . $certInfo['validTo_time_t']);
         $now  = date_create(date('Ymd'));
 
         $interval1 = $from->diff($now);
