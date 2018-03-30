@@ -164,7 +164,7 @@ class WtzGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzCompleteFrontOpenResponse $response
          */
         $response = $this->gateway->completeFrontOpen(array('request_params' => $data))->send();
-        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isSuccessful());
     }
 
 
