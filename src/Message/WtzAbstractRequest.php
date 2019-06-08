@@ -68,6 +68,43 @@ abstract class WtzAbstractRequest extends AbstractRequest
         return $this->setParameter('rootCert', $value);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAccNo()
+    {
+        return $this->getParameter('accNo');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setAccNo($value)
+    {
+        return $this->setParameter('accNo', $value);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomerInfo()
+    {
+        return $this->getParameter('customerInfo');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setCustomerInfo($value)
+    {
+        return $this->setParameter('customerInfo', $value);
+    }
 
     protected function encrypt($payload)
     {
@@ -86,5 +123,40 @@ abstract class WtzAbstractRequest extends AbstractRequest
         } else {
             return $cert;
         }
+    }
+    
+    protected function getPlainCustomerInfo()
+    {
+        $data = $this->getCustomerInfo();
+        if (empty($data)) {
+            return '';
+        }
+        return base64_encode("{" . urldecode(http_build_query($data)) . "}");
+    }
+
+    protected function getEncryptCustomerInfo()
+    {
+        $data = $this->getCustomerInfo();
+
+        if (empty($data)) {
+            return '';
+        }
+
+        $toEncrypt = array();
+        $protect   = array('phoneNo', 'cvn2', 'expired', 'certifTp', 'certifId');
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, $protect)) {
+                $toEncrypt[$key] = $data[$key];
+                unset($data[$key]);
+            }
+        }
+
+        if (count($toEncrypt) > 0) {
+            $payload               = urldecode(http_build_query($toEncrypt));
+            $data['encryptedInfo'] = $this->encrypt($payload);
+        }
+
+        return base64_encode("{" . urldecode(http_build_query($data)) . "}");
     }
 }

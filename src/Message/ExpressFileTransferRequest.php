@@ -31,7 +31,7 @@ class ExpressFileTransferRequest extends AbstractRequest
             'bizType'    => '000000',        //业务类型
             'accessType' => '0',        //接入类型
             'merId'      => $this->getMerId(),     //商户代码
-            'settleDate' => '0119',        //清算日期
+            'settleDate' => $this->getSettleDate(),        //清算日期
             'txnTime'    => $this->getTxnTime(),    //订单发送时间
             'fileType'   => $this->getFileType(),        //文件类型
         );

@@ -392,6 +392,26 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
 
     /**
+     * @return bool
+     */
+    public function getEncryptSensitive()
+    {
+        return $this->getParameter('encryptSensitive');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setEncryptSensitive($value)
+    {
+        return $this->setParameter('encryptSensitive', $value);
+    }
+
+
+    /**
      * @param $method
      * @param $data
      *

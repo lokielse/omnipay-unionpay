@@ -20,7 +20,23 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
      */
     public function getData()
     {
-        $this->validate('orderId', 'txnTime');
+
+        $encryptSensitive = $this->getEncryptSensitive();
+        $bizType = $this->getBizType();
+        $txnSubType = $this->getTxnSubType();
+
+        $this->validate('orderId', 'txnSubType', 'txnTime');
+
+        switch ($txnSubType)
+        {
+            case '00':
+                $this->validate('accNo');
+                break;
+            case '01':
+                $this->validate('customerInfo');
+                break;
+        }
+
 
         $data = array(
             'version'       => $this->getVersion(),  //版本号
@@ -28,8 +44,8 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
             'certId'        => $this->getTheCertId(),    //证书ID
             'signMethod'    => $this->getSignMethod(),  //签名方法
             'txnType'       => '78',        //交易类型
-            'txnSubType'    => '02',        //交易子类
-            'bizType'       => '000902',    //业务类型
+            'txnSubType'    => $this->getTxnSubType(),        //交易子类
+            'bizType'       => $bizType,    //业务类型
             'accessType'    => $this->getAccessType(),         //接入类型
             'channelType'   => $this->getChannelType(), //05:语音 07:互联网 08:移动
             'encryptCertId' => CertUtil::readX509CertId($this->getEncryptKey()),
@@ -37,6 +53,15 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
         );
+
+        switch ($txnSubType)
+        {
+            case '00': // 账号查询
+                $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
+            case '01': // 手机号查询
+                $data['customerInfo'] = $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo();
+        }
+
 
         $data = $this->filter($data);
 

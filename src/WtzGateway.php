@@ -30,6 +30,7 @@ class WtzGateway extends ExpressGateway
     }
 
 
+
     /**
      * @return mixed
      */
@@ -192,6 +193,17 @@ class WtzGateway extends ExpressGateway
     public function consume(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\UnionPay\Message\WtzConsumeRequest', $parameters);
+    }
+
+    /**
+     * 消费撤销：后台资金类交易，有后台通知应答
+     *
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function consumeUndo(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\UnionPay\Message\WtzConsumeUndoRequest', $parameters);
     }
 
 

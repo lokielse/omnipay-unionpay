@@ -19,12 +19,12 @@ class ExpressConsumeUndoRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('orderId', 'txnTime', 'txnAmt', 'queryId');
+        $this->validate('orderId', 'txnTime', 'txnAmt', 'origQryId');
 
         $data = array(
             'version'     => $this->getVersion(),        //版本号
             'encoding'    => $this->getEncoding(),        //编码方式
-            'certId'      => $this->getCertId(),    //证书ID
+            'certId'      => $this->getTheCertId(),    //证书ID
             'signMethod'  => $this->getSignMethod(),        //签名方法
             'txnType'     => '31',        //交易类型
             'txnSubType'  => '00',        //交易子类
@@ -33,7 +33,7 @@ class ExpressConsumeUndoRequest extends AbstractRequest
             'channelType' => $this->getChannelType(),        //渠道类型
             'orderId'     => $this->getOrderId(),    //商户订单号，重新产生，不同于原消费
             'merId'       => $this->getMerId(),            //商户代码，请改成自己的测试商户号
-            'origQryId'   => $this->getQueryId(),
+            'origQryId'   => $this->getQueryId() ?: $this->getOrigQryId(),
             //原消费的queryId，可以从查询接口或者通知接口中获取
             'txnTime'     => $this->getTxnTime(),    //订单发送时间，重新产生，不同于原消费
             'txnAmt'      => $this->getTxnAmt(),    //交易金额，消费撤销时需和原消费一致
@@ -59,6 +59,25 @@ class ExpressConsumeUndoRequest extends AbstractRequest
     public function setQueryId($value)
     {
         $this->setParameter('queryId', $value);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrigQryId()
+    {
+        return $this->getParameter('origQryId');
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setOrigQryId($value)
+    {
+        return $this->setParameter('origQryId', $value);
     }
 
 

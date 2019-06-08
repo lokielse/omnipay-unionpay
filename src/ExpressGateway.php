@@ -38,6 +38,7 @@ class ExpressGateway extends AbstractGateway
             'reqReserved'    => '',
             'defaultPayType' => '0001',
             'environment'    => 'sandbox',
+            'encryptSensitive' => true,
         );
     }
 
@@ -195,6 +196,16 @@ class ExpressGateway extends AbstractGateway
     public function getEnvironment()
     {
         return $this->getParameter('environment');
+    }
+
+    public function getEncryptSensitive()
+    {
+        return $this->getParameter('encryptSensitive');
+    }
+
+    public function setEncryptSensitive($value)
+    {
+        return $this->setParameter('encryptSensitive', $value);
     }
 
 

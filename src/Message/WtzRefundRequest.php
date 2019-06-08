@@ -20,7 +20,7 @@ class WtzRefundRequest extends WtzAbstractRequest
      */
     public function getData()
     {
-        $this->validate('orderId', 'origQryId', 'txnTime', 'txnAmt');
+        $this->validate('orderId', 'origQryId', 'txnTime', 'txnAmt', 'notifyUrl');
 
         $data = array(
             'version'       => $this->getVersion(),  //版本号
@@ -38,6 +38,7 @@ class WtzRefundRequest extends WtzAbstractRequest
             'origQryId'     => $this->getOrigQryId(),     //原消费的queryId，从查询接口获取
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
             'txnAmt'        => $this->getTxnAmt(),    //交易金额，单位分
+            'backUrl'       => $this->getNotifyUrl(),
         );
 
         $data = $this->filter($data);

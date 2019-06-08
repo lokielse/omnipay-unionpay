@@ -9,6 +9,7 @@ define('UNIONPAY_CERT_PATH', UNIONPAY_ASSET_DIR . '/dist/cert.pfx');
 define('UNIONPAY_PUBLIC_KEY', UNIONPAY_ASSET_DIR . '/dist/verify_sign_acp.cer');
 define('UNIONPAY_PRIVATE_KEY', UNIONPAY_ASSET_DIR . '/dist/private_key.pem');
 
+define('UNIONPAY_WTZ_MER_ID', '777290058110097');
 define('UNIONPAY_TWZ_ENCRYPT_CERT', UNIONPAY_ASSET_DIR . '/dist/wtz/acp_test_enc.cer');
 define('UNIONPAY_TWZ_MIDDLE_CERT', UNIONPAY_ASSET_DIR . '/dist/wtz/acp_test_middle.cer');
 define('UNIONPAY_TWZ_ROOT_CERT', UNIONPAY_ASSET_DIR . '/dist/wtz/acp_test_root.cer');
