@@ -174,6 +174,8 @@ repository.
 
 ## Wtz Gateway
 
+Examples below work with wtz standard version.
+
 **Note: You may checkout test cases for usage refrenece. 你可以通过查阅测试用例，了解接口直接的依赖关系**
 
 ### Init Gateway
@@ -185,10 +187,10 @@ $gateway = Omnipay::create('UnionPay_Wtz');
 
 $gateway->setMerId($config['merId']);
 $gateway->setBizType('000301'); // 000301: Standard Version; 000902: Token Version;
-$gateway->setEncryptSensitive(true); // base on merchance config; 
+$gateway->setEncryptSensitive(true); // base on merchance config;
 
 // Sandbox
-$gateway->setCertPassword($config['signPassword']); 
+$gateway->setCertPassword($config['signPassword']);
 $gateway->setCertPath($config['signPfx']);
 
 // production
@@ -216,7 +218,7 @@ $params = array(
 
 $response = $this->gateway->openQuery($params)->send();
 $customerInfo = $response->getCustomerInfo(); // 包含 phoneNo，可用于请求消费短信
-var_duemp($response);
+var_dump($response);
 var_dump($customerInfo);
 ```
 
@@ -266,7 +268,7 @@ $params = array(
     'accNo'   => '6226388000000095',
     'customerInfo' => [
         'smsCode' => '111111',  // 除了123456和654321固定反失败，其余固定成功。
-        // 'smsCode' => '123456',  
+        // 'smsCode' => '123456',
     ]
 );
 
@@ -296,9 +298,9 @@ var_dump($response->getData());
 ```php
 $params = array(
     'orderId'   => date('YmdHis'), // 全新订单号
-    'txnTime'   => date('YmdHis'), 
+    'txnTime'   => date('YmdHis'),
     'origQryId' => $origQryId, // 查询/消费接口 返回的 queryId
-    'txnAmt'    => 100,  
+    'txnAmt'    => 100,
 );
 
 $request = $this->gateway->refund($params)
@@ -308,7 +310,6 @@ var_dump($request->getData());
 var_dump($response->getData());
 
 ```
-
 
 ## Related
 
@@ -328,3 +329,7 @@ you can subscribe to.
 
 If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/lokielse/omnipay-unionpay/issues),
 or better yet, fork the library and submit a pull request.
+
+## About Test
+
+- `WtzTokenGatewayTest` only test request data is received by unionpay gateway with no "6100030" (报文格式错误) error code in response.
