@@ -176,7 +176,7 @@ repository.
 
 Examples below work with wtz standard version.
 
-**Note: You may checkout test cases for usage refrenece. 你可以通过查阅测试用例，了解接口直接的依赖关系**
+**Note: You may checkout test cases for usage refrenece. 你可以通过查阅测试用例，了解接口之间的依赖关系**
 
 ### Init Gateway
 
