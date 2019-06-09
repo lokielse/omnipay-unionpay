@@ -45,13 +45,11 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             'payTimeout'    => $this->getPayTimeout(), //订单超时时间
         );
 
-        if ($bizType === '000902')
-        {
+        if ($bizType === '000902') {
             $data['tokenPayData'] = sprintf('{trId=%s&tokenType=01}', $this->getTrId()); //标记请求者 trId
         }
 
-        if ($reserved = $this->getReserved())
-        {
+        if ($reserved = $this->getReserved()) {
             $data['reserved'] = $reserved;
         }
 

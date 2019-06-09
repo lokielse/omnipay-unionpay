@@ -24,8 +24,7 @@ class WtzConsumeRequest extends WtzAbstractRequest
         $encryptSensitive = $this->getEncryptSensitive();
 
         $this->validate('orderId', 'txnTime', 'txnAmt', 'customerInfo');
-        switch ($bizType)
-        {
+        switch ($bizType) {
             case '000301':
                 $this->validate('accNo');
                 break;
@@ -53,15 +52,12 @@ class WtzConsumeRequest extends WtzAbstractRequest
             'customerInfo'  => $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo(),
         );
 
-        switch ($bizType)
-        {
+        switch ($bizType) {
             case '000301':
                 $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
                 break;
             case '000902':
                 $data['tokenPayData'] = sprintf('{trId=%s&token=%s}', $this->getTrId(), $this->getToken());
-
-
         }
 
         $data = $this->filter($data);

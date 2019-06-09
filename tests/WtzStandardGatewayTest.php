@@ -41,7 +41,6 @@ class WtzStandardGatewayTest extends GatewayTestCase
         fclose($fh);
 
         exec(sprintf('open %s -a "/Applications/Google Chrome.app" && sleep 5 && rm %s', $file, $file));
-
     }
 
 
@@ -196,7 +195,6 @@ class WtzStandardGatewayTest extends GatewayTestCase
          */
         $response = $this->gateway->smsConsume($params)->send();
         $this->assertFalse($response->isSuccessful());
-
     }
 
     public function testConsume()
@@ -221,7 +219,6 @@ class WtzStandardGatewayTest extends GatewayTestCase
             'params' => $params,
             'response' => $response->getData(),
         ];
-
     }
 
     /**

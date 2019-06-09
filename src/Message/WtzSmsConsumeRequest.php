@@ -25,8 +25,7 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
 
         $this->validate('orderId', 'txnTime', 'txnAmt');
 
-        switch ($bizType)
-        {
+        switch ($bizType) {
             case '000301':
                 $this->validate('accNo', 'customerInfo');
                 break;
@@ -53,8 +52,7 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
             'currencyCode'  => $this->getCurrencyCode(),
         );
 
-        switch ($bizType)
-        {
+        switch ($bizType) {
             case '000301':
                 $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
                 $data['customerInfo'] = $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo();

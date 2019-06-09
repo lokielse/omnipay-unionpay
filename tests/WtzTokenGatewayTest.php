@@ -52,7 +52,7 @@ class WtzTokenGatewayTest extends GatewayTestCase
 
     private function codeFromRespMsg($str)
     {
-        if (preg_match("/\[(\d*)\]$/", $str, $arr) ) {
+        if (preg_match("/\[(\d*)\]$/", $str, $arr)) {
             return $arr[1];
         } else {
             return null;
@@ -261,7 +261,6 @@ class WtzTokenGatewayTest extends GatewayTestCase
             'params' => $params,
             'response' => $response->getData(),
         ];
-
     }
 
     /**

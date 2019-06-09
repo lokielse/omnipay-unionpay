@@ -27,8 +27,7 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
 
         $this->validate('orderId', 'txnSubType', 'txnTime');
 
-        switch ($txnSubType)
-        {
+        switch ($txnSubType) {
             case '00':
                 $this->validate('accNo');
                 break;
@@ -54,8 +53,7 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
         );
 
-        switch ($txnSubType)
-        {
+        switch ($txnSubType) {
             case '00': // 账号查询
                 $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
             case '01': // 手机号查询
