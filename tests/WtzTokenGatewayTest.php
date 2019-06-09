@@ -42,7 +42,7 @@ class WtzTokenGatewayTest extends GatewayTestCase
 
     private function open($content)
     {
-        $file = sprintf('./%s.html', md5(uniqid()));
+        return $file = sprintf('./%s.html', md5(uniqid()));
         $fh = fopen($file, 'w');
         fwrite($fh, $content);
         fclose($fh);
