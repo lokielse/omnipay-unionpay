@@ -159,7 +159,6 @@ class WtzStandardGatewayTest extends GatewayTestCase
         // 偶尔会网关超时
         $this->assertTrue($data['verify_success']);
         $this->assertNotEquals("6100030", $code, $data['respMsg']);
-
     }
 
 
