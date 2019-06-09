@@ -19,7 +19,7 @@ class ExpressConsumeUndoRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('orderId', 'txnTime', 'txnAmt', 'origQryId');
+        $this->validate('orderId', 'txnTime', 'txnAmt', 'queryId');
 
         $data = array(
             'version'     => $this->getVersion(),        //版本号
@@ -33,7 +33,7 @@ class ExpressConsumeUndoRequest extends AbstractRequest
             'channelType' => $this->getChannelType(),        //渠道类型
             'orderId'     => $this->getOrderId(),    //商户订单号，重新产生，不同于原消费
             'merId'       => $this->getMerId(),            //商户代码，请改成自己的测试商户号
-            'origQryId'   => $this->getQueryId() ?: $this->getOrigQryId(),
+            'origQryId'   => $this->getQueryId(),
             //原消费的queryId，可以从查询接口或者通知接口中获取
             'txnTime'     => $this->getTxnTime(),    //订单发送时间，重新产生，不同于原消费
             'txnAmt'      => $this->getTxnAmt(),    //交易金额，消费撤销时需和原消费一致

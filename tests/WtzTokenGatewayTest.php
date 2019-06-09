@@ -32,7 +32,7 @@ class WtzTokenGatewayTest extends GatewayTestCase
         $this->gateway->setReturnUrl('http://example.com/return');
         $this->gateway->setNotifyUrl('http://example.com/notify');
 
-        // 获取 token 需要在银联侧开通，options 为已完成 FrontOpen 的订单数据。
+        // options 为已完成 FrontOpen 的订单数据。可以通过 query 接口 获取相关 token 信息
         $this->options = [
             'orderId' => '20190608021356',
             'txnTime' => '20190608021356',
@@ -48,6 +48,15 @@ class WtzTokenGatewayTest extends GatewayTestCase
         fclose($fh);
 
         exec(sprintf('open %s -a "/Applications/Google Chrome.app" && sleep 5 && rm %s', $file, $file));
+    }
+
+    private function codeFromRespMsg($str)
+    {
+        if (preg_match("/\[(\d*)\]$/", $str, $arr) ) {
+            return $arr[1];
+        } else {
+            return null;
+        }
     }
 
 
@@ -132,7 +141,8 @@ class WtzTokenGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzFrontOpenResponse $response
          */
         $response = $this->gateway->backOpen($params)->send();
-        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->getData()['verify_success']);
+        // $this->assertTrue($response->isSuccessful());
     }
 
 
@@ -213,8 +223,10 @@ class WtzTokenGatewayTest extends GatewayTestCase
         /**
          * @var \Omnipay\UnionPay\Message\WtzSmsConsumeResponse $response
          */
-        $response = $this->gateway->smsConsume($params)->send();
-        $this->assertFalse($response->isSuccessful());
+        $request =  $this->gateway->smsConsume($params);
+        $response = $request->send();
+
+        $this->assertTrue($response->getData()['verify_success']);
     }
 
     /**
@@ -226,15 +238,24 @@ class WtzTokenGatewayTest extends GatewayTestCase
             'orderId' => date('YmdHis'),
             'txnTime' => date('YmdHis'),
             'txnAmt'  => 100,
-            'trId'    => '62000000001',
+            'trId'    => '99988877766',
             'token'   => $preData['tokenPayData']['token'],
+            'customerInfo' => ['smsCode' => '111111']
         );
+
+        $request = $this->gateway->consume($params);
 
         /**
          * @var \Omnipay\UnionPay\Message\WtzConsumeResponse $response
          */
-        $response = $this->gateway->consume($params)->send();
-        $this->assertFalse($response->isSuccessful());
+        $response = $request->send();
+        
+        $data = $response->getData();
+        $code = $this->codeFromRespMsg($data['respMsg']);
+
+        $this->assertTrue($data['verify_success']);
+        // 6100030 格式错误
+        $this->assertNotEquals("6100030", $code, $data['respMsg']);
 
         return [
             'params' => $params,
@@ -266,12 +287,12 @@ class WtzTokenGatewayTest extends GatewayTestCase
      * @depends testOpenQuery
      * @depends testConsume
      */
-    public function testRefund($queryData, $consumData)
+    public function testRefund($queryData, $consumeData)
     {
         $params = array(
             'bizType'   => '000301',
             'orderId'   => date('YmdHis'),
-            'origQryId' => $consumData['response']['queryId'],
+            'origQryId' =>  array_key_exists('queryId', $consumeData['response']) ? $consumeData['response']['queryId'] : "xxxxxxxxx",
             'txnTime'   => date('YmdHis'),
             'txnAmt'    => 100,
         );
@@ -280,7 +301,10 @@ class WtzTokenGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzRefundResponse $response
          */
         $response = $this->gateway->refund($params)->send();
-        $this->assertFalse($response->isSuccessful());
+        $data = $response->getData();
+        $this->assertTrue($data['verify_success']);
+        $code = $this->codeFromRespMsg($data['respMsg']);
+        $this->assertNotEquals("6100030", $code, $data['respMsg']);
     }
 
 
@@ -296,40 +320,46 @@ class WtzTokenGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzApplyTokenResponse $response
          */
         $response = $this->gateway->applyToken($params)->send();
-        $this->assertTrue($response->isSuccessful());
+        $data = $response->getData();
+        $this->assertTrue($data['verify_success']);
     }
 
-
-    public function testUpdateToken()
+    /**
+     * @depends testOpenQuery
+     */
+    public function testUpdateToken($queryData)
     {
         $params = array(
-            'orderId' => date('YmdHis'),
-            'txnTime' => date('YmdHis'),
+            'orderId' => $this->options['orderId'],
+            'txnTime' => $this->options['txnTime'],
             'trId'    => '99988877766',
-            'token'   => '6235240000020757577',
+            'token'   => $queryData['tokenPayData']['token'],
         );
 
         /**
          * @var \Omnipay\UnionPay\Message\WtzApplyTokenResponse $response
          */
         $response = $this->gateway->applyToken($params)->send();
-        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->getData()['verify_success']);
     }
 
-
-    public function testDeleteToken()
+    /**
+     * @depends testOpenQuery
+     */
+    public function testDeleteToken($queryData)
     {
         $params = array(
-            'orderId' => '20171031035544',
-            'txnTime' => date('YmdHis'),
-            'trId'    => '62000000001',
-            'token'   => '6235240000020757577',
+            'orderId' => $this->options['orderId'],
+            'txnTime' => $this->options['txnTime'],
+            'trId'    => '99988877766',
+            'token'   => $queryData['tokenPayData']['token'],
         );
 
         /**
          * @var \Omnipay\UnionPay\Message\WtzDeleteTokenResponse $response
          */
         $response = $this->gateway->deleteToken($params)->send();
-        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->getData()['verify_success']);
+        // $this->assertFalse($response->isSuccessful());
     }
 }

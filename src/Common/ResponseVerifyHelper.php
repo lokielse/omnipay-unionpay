@@ -31,10 +31,6 @@ class ResponseVerifyHelper
             }
         }
 
-        if ($data['respCode'] !== '00') {
-            return false;
-        }
-
         $from = date_create('@' . $certInfo['validFrom_time_t']);
         $to   = date_create('@' . $certInfo['validTo_time_t']);
         $now  = date_create(date('Ymd'));

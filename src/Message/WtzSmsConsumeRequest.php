@@ -31,7 +31,7 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
                 $this->validate('accNo', 'customerInfo');
                 break;
             case '000902':
-                $this->validate('token');
+                $this->validate('token', 'trId');
                 break;
         }
 
@@ -60,7 +60,6 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
                 $data['customerInfo'] = $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo();
                 break;
             case '000902':
-                $data['token'] = $this->getToken();
                 $data['tokenPayData'] = sprintf('{trId=%s&token=%s}', $this->getTrId(), $this->getToken());
                 break;
         }

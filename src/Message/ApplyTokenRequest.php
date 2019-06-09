@@ -27,9 +27,9 @@ class ApplyTokenRequest extends AbstractRequest
             'signMethod'    => $this->getSignMethod(),  //签名方法
             'txnType'       => '79',        //交易类型
             'txnSubType'    => '05',        //交易子类
-            'bizType'       => '000301',    //业务类型 000301 000902
+            'bizType'       => '000902',    //业务类型 000301 000902
             'accessType'    => '0',         //接入类型
-            'channelType'   => '07',        //渠道类型 05:语音 07:互联网 08:移动
+            'channelType'   => $this->getChannelType(),        //渠道类型 05:语音 07:互联网 08:移动
             'encryptCertId' => $this->getEncryptCertId(),
             'merId'         => $this->getMerId(),     //商户代码
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
@@ -40,8 +40,6 @@ class ApplyTokenRequest extends AbstractRequest
         $data = $this->filter($data);
 
         $data['signature'] = $this->sign($data);
-
-        var_dump($data);
 
         return $data;
     }

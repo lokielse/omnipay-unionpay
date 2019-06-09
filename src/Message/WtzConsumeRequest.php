@@ -23,14 +23,14 @@ class WtzConsumeRequest extends WtzAbstractRequest
         $bizType = $this->getBizType();
         $encryptSensitive = $this->getEncryptSensitive();
 
-        $this->validate('orderId', 'txnTime', 'txnAmt');
+        $this->validate('orderId', 'txnTime', 'txnAmt', 'customerInfo');
         switch ($bizType)
         {
             case '000301':
-                $this->validate('accNo', 'customerInfo');
+                $this->validate('accNo');
                 break;
             case '000902':
-                $this->validate('token', 'tokenPayData');
+                $this->validate('token', 'trId');
                 break;
         }
 
@@ -50,17 +50,16 @@ class WtzConsumeRequest extends WtzAbstractRequest
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
             'txnAmt'        => $this->getTxnAmt(),    //交易金额，单位分
             'currencyCode'  => $this->getCurrencyCode(),
+            'customerInfo'  => $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo(),
         );
 
         switch ($bizType)
         {
             case '000301':
                 $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
-                $data['customerInfo'] = $encryptSensitive ?  $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo();
                 break;
             case '000902':
-                $data['token'] = $this->getToken();
-                $data['tokenPayData'] = sprintf('{trId=%s&tokenType=%s}', $this->getTrId(), $this->getToken());
+                $data['tokenPayData'] = sprintf('{trId=%s&token=%s}', $this->getTrId(), $this->getToken());
 
 
         }
