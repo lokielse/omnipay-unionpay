@@ -55,8 +55,10 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
         switch ($txnSubType) {
             case '00': // 账号查询
                 $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
+                break;
             case '01': // 手机号查询
                 $data['customerInfo'] = $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo();
+                break;
         }
 
 
