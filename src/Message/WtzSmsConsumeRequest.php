@@ -55,7 +55,9 @@ class WtzSmsConsumeRequest extends WtzAbstractRequest
         switch ($bizType) {
             case '000301':
                 $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
-                $data['customerInfo'] = $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo();
+                $data['customerInfo'] = $encryptSensitive ?
+                    $this->getEncryptCustomerInfo() :
+                    $this->getPlainCustomerInfo();
                 break;
             case '000902':
                 $data['tokenPayData'] = sprintf('{trId=%s&token=%s}', $this->getTrId(), $this->getToken());

@@ -39,7 +39,9 @@ class WtzFrontOpenRequest extends WtzAbstractRequest
             'orderId'       => $this->getOrderId(),     //商户订单号，填写开通并支付交易的orderId
             'txnTime'       => $this->getTxnTime(),    //订单发送时间
             'accNo'         => $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo(), //银行卡号
-            'customerInfo'  => $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo(), //标记请求者 trId,
+            'customerInfo'  => $encryptSensitive ?
+                $this->getEncryptCustomerInfo() :
+                $this->getPlainCustomerInfo(), //标记请求者 trId,
             'frontUrl'      => $this->getReturnUrl(), //前台通知地址
             'backUrl'       => $this->getNotifyUrl(), //后台通知地址
             'payTimeout'    => $this->getPayTimeout(), //订单超时时间

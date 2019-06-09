@@ -291,7 +291,9 @@ class WtzTokenGatewayTest extends GatewayTestCase
         $params = array(
             'bizType'   => '000301',
             'orderId'   => date('YmdHis'),
-            'origQryId' =>  array_key_exists('queryId', $consumeData['response']) ? $consumeData['response']['queryId'] : "xxxxxxxxx",
+            'origQryId' =>  array_key_exists('queryId', $consumeData['response']) ?
+                $consumeData['response']['queryId'] :
+                "xxxxxxxxx",
             'txnTime'   => date('YmdHis'),
             'txnAmt'    => 100,
         );

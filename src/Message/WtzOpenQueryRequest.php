@@ -57,7 +57,9 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
                 $data['accNo'] = $encryptSensitive ? $this->encrypt($this->getAccNo()) : $this->getAccNo();
                 break;
             case '01': // 手机号查询
-                $data['customerInfo'] = $encryptSensitive ? $this->getEncryptCustomerInfo() : $this->getPlainCustomerInfo();
+                $data['customerInfo'] = $encryptSensitive ?
+                    $this->getEncryptCustomerInfo() :
+                    $this->getPlainCustomerInfo();
                 break;
         }
 
