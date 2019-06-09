@@ -20,7 +20,6 @@ class WtzOpenQueryRequest extends WtzAbstractRequest
      */
     public function getData()
     {
-
         $encryptSensitive = $this->getEncryptSensitive();
         $bizType = $this->getBizType();
         $txnSubType = $this->getTxnSubType();

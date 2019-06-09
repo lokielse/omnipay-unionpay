@@ -179,7 +179,6 @@ class WtzStandardGatewayTest extends GatewayTestCase
 
     public function testSmsConsume()
     {
-
         $params = array(
             'orderId' => date('YmdHis'),
             'txnTime' => date('YmdHis'),
