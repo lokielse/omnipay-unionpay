@@ -1,6 +1,6 @@
 # Omnipay: UnionPay
 
-在 `[lokielse/omnipay-unionpay](https://github.com/lokielse/omnipay-unionpay)` 的基础上更新
+在 [lokielse/omnipay-unionpay](https://github.com/lokielse/omnipay-unionpay) 的基础上更新
 
 [![Build Status](https://travis-ci.org/kongkx/omnipay-unionpay.png?branch=master)](https://travis-ci.org/kongkx/omnipay-unionpay)
 [![Latest Stable Version](https://poser.pugx.org/kongkx/omnipay-unionpay/version.png)](https://packagist.org/packages/kongkx/omnipay-unionpay)
