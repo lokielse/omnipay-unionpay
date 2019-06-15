@@ -29,7 +29,7 @@ class WtzStandardGatewayTest extends GatewayTestCase
         $this->gateway->setCertPassword(UNIONPAY_CERT_PASSWORD);
         $this->gateway->setBizType('000301'); // 标准版
         $this->gateway->setReturnUrl('http://example.com/return');
-        $this->gateway->setNotifyUrl('http://example.com/notify');
+        $this->gateway->setNotifyUrl('https://special.com');
     }
 
 
@@ -50,6 +50,11 @@ class WtzStandardGatewayTest extends GatewayTestCase
         } else {
             return null;
         }
+    }
+
+    private function sleep()
+    {
+        sleep(5);
     }
 
 
@@ -130,7 +135,10 @@ class WtzStandardGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzFrontOpenResponse $response
          */
         $response = $this->gateway->backOpen($params)->send();
-        $this->assertTrue($response->isSuccessful());
+        $data = $response->getData();
+
+        // 可能存在 无此交易权限[6131010] 的情况
+        $this->assertTrue($data['verify_success']);
     }
 
 
@@ -154,10 +162,12 @@ class WtzStandardGatewayTest extends GatewayTestCase
          */
         $response = $this->gateway->smsOpen($params)->send();
         $data = $response->getData();
-        $code = $this->codeFromRespMsg($data['respMsg']);
+        $this->sleep();
 
-        // 偶尔会网关超时
         $this->assertTrue($data['verify_success']);
+
+        $code = $this->codeFromRespMsg($data['respMsg']);
+        // 偶尔会网关超时
         $this->assertNotEquals("6100030", $code, $data['respMsg']);
     }
 
@@ -176,6 +186,8 @@ class WtzStandardGatewayTest extends GatewayTestCase
 
     public function testOpenQueryWithAccount()
     {
+        $this->sleep();
+
         $params = array(
             'orderId' => date('YmdHis'),
             'txnTime' => date('YmdHis'),
@@ -193,6 +205,8 @@ class WtzStandardGatewayTest extends GatewayTestCase
 
     public function testSmsConsume()
     {
+        $this->sleep();
+
         $params = array(
             'orderId' => date('YmdHis'),
             'txnTime' => date('YmdHis'),
@@ -207,6 +221,8 @@ class WtzStandardGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzSmsConsumeResponse $response
          */
         $response = $this->gateway->smsConsume($params)->send();
+        $this->sleep();
+
         $data = $response->getData();
         $code = $this->codeFromRespMsg($data['respMsg']);
 
@@ -217,6 +233,8 @@ class WtzStandardGatewayTest extends GatewayTestCase
 
     public function testConsume()
     {
+        $this->sleep();
+
         $params = array(
             'orderId' => date('YmdHis'),
             'txnTime' => date('YmdHis'),
@@ -226,6 +244,7 @@ class WtzStandardGatewayTest extends GatewayTestCase
                 'smsCode' => '111111',
             ]
         );
+
 
         /**
          * @var \Omnipay\UnionPay\Message\WtzConsumeResponse $response
@@ -244,6 +263,8 @@ class WtzStandardGatewayTest extends GatewayTestCase
      */
     public function testRefund($preData)
     {
+        $this->sleep();
+
         $params = array(
             'orderId'   => date('YmdHis'),
             'txnTime'   => date('YmdHis'),
@@ -263,6 +284,8 @@ class WtzStandardGatewayTest extends GatewayTestCase
      */
     public function testQuery($preData)
     {
+        $this->sleep();
+
         $params = array(
             'orderId' => $preData['params']['orderId'],
             'txnTime' => $preData['params']['txnTime'],

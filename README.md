@@ -334,4 +334,15 @@ or better yet, fork the library and submit a pull request.
 
 ## About Test
 
-- `WtzTokenGatewayTest` only test request data is received by unionpay gateway with no "6100030" (报文格式错误) error code in response.
+- 测试默认使用银联Demo 的商户号进行测试，但建议使用自己申请的商户号，通过环境变量传入。
+
+  1. `UNIONPAY_WTZ_MER_ID` 测试商户号
+  2. `UNIONPAY_WTZ_TOKEN_ORDER_ID` 供 token 版测试使用，完成一次 frontOpen, 记下该 `orderId`
+  3. `UNIONPAY_WTZ_TOKEN_TXN_TIME` 供 token 版测试使用，完成一次 frontOpen, 记下该 `txnTime`
+  
+  
+  ```php
+  UNIONPAY_WTZ_MER_ID={merId} UNIONPAY_WTZ_TOKEN_ORDER_ID={orderId} UNIONPAY_WTZ_TOKEN_TXN_TIME={txnTime} phpunit 
+  ```
+
+- 无跳转支付支付的测试 只能保证 报文格式正确

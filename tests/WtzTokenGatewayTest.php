@@ -30,12 +30,12 @@ class WtzTokenGatewayTest extends GatewayTestCase
         $this->gateway->setCertPath(UNIONPAY_TWZ_SIGN_CERT);
         $this->gateway->setCertPassword(UNIONPAY_CERT_PASSWORD);
         $this->gateway->setReturnUrl('http://example.com/return');
-        $this->gateway->setNotifyUrl('http://example.com/notify');
+        $this->gateway->setNotifyUrl('https://special.com');
 
         // options 为已完成 FrontOpen 的订单数据。可以通过 query 接口 获取相关 token 信息
         $this->options = [
-            'orderId' => '20190608021356',
-            'txnTime' => '20190608021356',
+            'orderId' => getenv('UNIONPAY_WTZ_TOKEN_ORDER_ID') ?: '20190608021356',
+            'txnTime' => getenv('UNIONPAY_WTZ_TOKEN_TXN_TIME') ?: '20190608021356',
         ];
     }
 
@@ -89,7 +89,7 @@ class WtzTokenGatewayTest extends GatewayTestCase
         $response = $this->gateway->frontOpenConsume($params)->send();
         $this->assertTrue($response->isSuccessful());
         $form = $response->getRedirectForm();
-        $this->open($form);
+//        $this->open($form);
     }
 
 
@@ -277,7 +277,11 @@ class WtzTokenGatewayTest extends GatewayTestCase
          * @var \Omnipay\UnionPay\Message\WtzQueryResponse $response
          */
         $response = $this->gateway->query($params)->send();
-        $this->assertFalse($response->isSuccessful());
+        $data = $response->getData();
+        $this->assertTrue($data['verify_success']);
+
+        $code = $this->codeFromRespMsg($data['respMsg']);
+        $this->assertNotEquals("6100030", $code, $data['respMsg']);
     }
 
 
