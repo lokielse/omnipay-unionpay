@@ -30,7 +30,7 @@ class WtzTokenGatewayTest extends GatewayTestCase
         $this->gateway->setCertPath(UNIONPAY_TWZ_SIGN_CERT);
         $this->gateway->setCertPassword(UNIONPAY_CERT_PASSWORD);
         $this->gateway->setReturnUrl('http://example.com/return');
-        $this->gateway->setNotifyUrl('https://special.com');
+        $this->gateway->setNotifyUrl('http://www.specialUrl.com');
 
         // options 为已完成 FrontOpen 的订单数据。可以通过 query 接口 获取相关 token 信息
         $this->options = [
@@ -89,7 +89,7 @@ class WtzTokenGatewayTest extends GatewayTestCase
         $response = $this->gateway->frontOpenConsume($params)->send();
         $this->assertTrue($response->isSuccessful());
         $form = $response->getRedirectForm();
-//        $this->open($form);
+        $this->open($form);
     }
 
 

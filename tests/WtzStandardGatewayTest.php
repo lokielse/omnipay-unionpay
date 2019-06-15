@@ -29,7 +29,7 @@ class WtzStandardGatewayTest extends GatewayTestCase
         $this->gateway->setCertPassword(UNIONPAY_CERT_PASSWORD);
         $this->gateway->setBizType('000301'); // 标准版
         $this->gateway->setReturnUrl('http://example.com/return');
-        $this->gateway->setNotifyUrl('https://special.com');
+        $this->gateway->setNotifyUrl('http://www.specialUrl.com');
     }
 
 
