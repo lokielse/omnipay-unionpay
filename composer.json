@@ -1,5 +1,5 @@
 {
-  "name": "lokielse/omnipay-unionpay",
+  "name": "kongkx/omnipay-unionpay",
   "type": "library",
   "description": "UnionPay gateway for Omnipay payment processing library",
   "keywords": [
@@ -16,12 +16,12 @@
     "无跳转支付",
     "laravel"
   ],
-  "homepage": "https://github.com/lokielse/omnipay-unionpay",
+  "homepage": "https://github.com/kongkx/omnipay-unionpay",
   "license": "MIT",
   "authors": [
     {
-      "name": "Loki Else",
-      "email": "lokielse@gmail.com"
+      "name": "kongkx yang",
+      "email": "kongkx.yang@gmail.com"
     }
   ],
   "autoload": {
