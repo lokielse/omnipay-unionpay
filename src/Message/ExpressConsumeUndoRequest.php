@@ -52,7 +52,7 @@ class ExpressConsumeUndoRequest extends AbstractRequest
 
     public function getQueryId()
     {
-        $this->getParameter('queryId');
+        return $this->getParameter('queryId');
     }
 
 
